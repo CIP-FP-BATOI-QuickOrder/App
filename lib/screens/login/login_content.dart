@@ -1,0 +1,222 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quick_order/extensions/in_progress.dart';
+import 'package:quick_order/screens/login/widgets/login_form_widget.dart';
+import 'package:http/http.dart' as http;
+
+import '../welcome/widgets/signing_button.dart';
+import '../welcome/widgets/social_media_buttons.dart';
+
+class LoginContent extends StatefulWidget {
+  const LoginContent({super.key});
+
+  @override
+  State<LoginContent> createState() => _LoginContentState();
+}
+
+class _LoginContentState extends State<LoginContent> {
+  final GlobalKey<FormState> _formState = GlobalKey<FormState>();
+  late TextEditingController _email;
+  late TextEditingController _password;
+
+  @override
+  void initState() {
+    super.initState();
+    _email = TextEditingController();
+    _password = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
+  Future<void> tryLogin() async {
+    // const String _url = "http://137.74.226.43:8080/user/";
+    // final response = await  http.get(Uri.parse(_url + _email.text+ "/" + _password.text));
+
+    if (_formState.currentState?.validate() == true) {
+
+      context.showCustomFlashMessage(
+        status: _email.text,
+        title: _password.text,
+        positionBottom: false,
+      );
+      Future.delayed(const Duration(seconds: 1)).then(
+        (_) => Navigator.pushNamed(
+          context,
+          "home_screen",
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeData theme = context.theme;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Stack(
+          children: [
+            Image.asset('assets/images/header.png'),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 37,
+                left: 27,
+              ),
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                enableFeedback: false,
+                child: Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 8,
+                          offset: const Offset(0, 3),
+                        ),
+                      ]),
+                  child: const Padding(
+                    padding: EdgeInsets.all(1.0),
+                    child: Icon(
+                      Icons.arrow_back_ios_new,
+                      size: 18,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 92.0),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 26.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                'Sign In',
+                style: theme.textTheme.headline4!.copyWith(
+                  fontSize: 34,
+                  color: Colors.black,
+                ),
+              ),
+              const SizedBox(height: 38.0),
+              Form(
+                key: _formState,
+                child: LoginFormWidget(
+                  emailController: _email,
+                  passwordController: _password,
+                ),
+              ),
+              const SizedBox(height: 32.0),
+              Center(
+                child: InkWell(
+                  onTap: () => context.showCustomFlashMessage(status: 'info'),
+                  child: Text(
+                    'Forgot password?',
+                    style: context.theme.textTheme.subtitle2!.copyWith(
+                      color: Colors.orange,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 32.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 42.0),
+                child: ButtonWidget(
+                  onPress: () => tryLogin(),
+                  title: 'LOGIN',
+                  buttonColor: Colors.orange,
+                  titleColor: Colors.white,
+                  borderColor: Colors.orange,
+                  paddingHorizontal: 22.0,
+                  paddingVertical: 22.0,
+                ),
+              ),
+              const SizedBox(height: 36.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Don't have an account?",
+                    style: context.theme.textTheme.subtitle2!.copyWith(
+                      color: Colors.black38,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(width: 8.0),
+                  InkWell(
+                    onTap: () => context.showCustomFlashMessage(
+                      status: 'info',
+                      positionBottom: true,
+                    ),
+                    child: Text(
+                      'Sign Up',
+                      style: context.theme.textTheme.subtitle2!.copyWith(
+                        color: Colors.orange,
+                        fontSize: 16,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.orange,
+                        decorationThickness: 1.3,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 36.0),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      child: Divider(
+                        thickness: 1,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16.0,
+                        right: 16.0,
+                      ),
+                      child: Text(
+                        'sign in with',
+                        style: theme.textTheme.subtitle2!.apply(
+                            color: Colors.black38),
+                      ),
+                    ),
+                    const Expanded(
+                      child: Divider(
+                        thickness: 1,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 18.0),
+              const ButtonSigninWith(
+                positionButtom: false,
+              ),
+              const SizedBox(height: 18.0),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
