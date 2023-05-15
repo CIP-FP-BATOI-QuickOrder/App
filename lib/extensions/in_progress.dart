@@ -19,48 +19,42 @@ extension ContextExtensions on BuildContext {
             behavior: FlashBehavior.floating,
             position: positionBottom ? FlashPosition.bottom : FlashPosition.top,
             borderRadius: BorderRadius.circular(8.0),
-            //borderColor: statusColor(status.toLowerCase()),
-            // backgroundGradient: LinearGradient(
-              // colors: [
-              //   whiteColor,
-              //   grayColor20,
-              // ],
-            // ),
+            backgroundGradient: const LinearGradient(
+              colors: [
+                Colors.white,
+                Colors.grey,
+              ],
+            ),
             forwardAnimationCurve: Curves.easeInCirc,
             reverseAnimationCurve: Curves.easeOutBack,
             child: DefaultTextStyle(
-              style: TextStyle(color: Colors.orange),
+              style: const TextStyle(color: Colors.orange),
               child: FlashBar(
                 title: Text(
                   title,
-                  style: theme.textTheme.headline4!.copyWith(
-                    // color: statusColor(status.toLowerCase()),
+                  style: const TextStyle(
                     fontSize: 16,
                   ),
                 ),
                 content: Text(
                   message,
-                  style: theme.textTheme.headline4!.copyWith(
-                    // color: statusColor(status.toLowerCase()),
+                  style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                // indicatorColor: statusColor(status.toLowerCase()),
                 icon: Icon(
                   status.toLowerCase() == 'success'
                       ? Icons.check_circle
                       : status == 'failed'
                       ? Icons.warning_rounded
                       : Icons.info,
-                  // color: statusColor(status.toLowerCase()),
                 ),
                 primaryAction: TextButton(
                   onPressed: () => controller.dismiss(),
-                  child: Text(
+                  child: const Text(
                     'DISMISS',
-                    style: theme.textTheme.bodyText1!.copyWith(
-                      // color: statusColor(status.toLowerCase()),
+                    style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
                     ),
