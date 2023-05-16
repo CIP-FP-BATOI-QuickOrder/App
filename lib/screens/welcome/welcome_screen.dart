@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quick_order/extensions/in_progress.dart';
+import 'package:quick_order/routes/routes.dart';
 import 'package:quick_order/screens/welcome/widgets/signing_button.dart';
 import 'package:quick_order/screens/welcome/widgets/social_media_buttons.dart';
 
@@ -88,7 +89,7 @@ class WelcomeScreen extends StatelessWidget {
                   child: ButtonWidget(
                     onPress: () => Navigator.pushNamed(
                       context,
-                      "login",
+                      Routes.loginScreen,
                     ),
                     title: 'Start with email',
                     buttonColor: Colors.white.withOpacity(0.3),
@@ -113,7 +114,7 @@ class WelcomeScreen extends StatelessWidget {
                     InkWell(
                       onTap: () => Navigator.pushNamed(
                         context,
-                        "login",
+                        Routes.registerScreen,
                       ),
                       child: const Text(
                         'Sign Up',

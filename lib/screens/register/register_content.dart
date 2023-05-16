@@ -3,57 +3,77 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_order/extensions/in_progress.dart';
-import 'package:quick_order/routes/routes.dart';
-import 'package:quick_order/screens/login/widgets/login_form_widget.dart';
+import 'package:quick_order/models/user.dart';
+import 'package:quick_order/screens/register/widgets/register_form_widget.dart';
 import 'package:http/http.dart' as http;
 
-import '../../models/user.dart';
+import '../../routes/routes.dart';
 import '../welcome/widgets/signing_button.dart';
 import '../welcome/widgets/social_media_buttons.dart';
 
-class LoginContent extends StatefulWidget {
-  const LoginContent({super.key});
+class RegisterContent extends StatefulWidget {
+  const RegisterContent({super.key});
 
   @override
-  State<LoginContent> createState() => _LoginContentState();
+  State<RegisterContent> createState() => _RegisterContentState();
 }
 
-class _LoginContentState extends State<LoginContent> {
+class _RegisterContentState extends State<RegisterContent> {
   final GlobalKey<FormState> _formState = GlobalKey<FormState>();
+  late TextEditingController _name;
+  late TextEditingController _surname;
   late TextEditingController _email;
   late TextEditingController _password;
+  late TextEditingController _phone;
 
   @override
   void initState() {
     super.initState();
+    _name = TextEditingController();
+    _surname = TextEditingController();
     _email = TextEditingController();
     _password = TextEditingController();
+    _phone = TextEditingController();
   }
 
   @override
   void dispose() {
+    _name.dispose();
+    _surname.dispose();
     _email.dispose();
     _password.dispose();
+    _phone.dispose();
     super.dispose();
   }
 
-  Future<void> tryLogin() async {
+  Future<void> register() async {
     if (_formState.currentState?.validate() == true) {
-      final response = await http.get(Uri.parse("${Routes.api}user/${_email.text}/${_password.text}"));
-      if (response.statusCode == 200) {
-        User user = User.fromJson(jsonDecode(response.body));
 
-        Future.delayed(const Duration(seconds: 1)).then(
-          (_) => Navigator.pushNamed(
+      final   response = await  http.post(Uri.parse("${Routes.api}user"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'name': _name.text,
+          'surname': _surname.text,
+          'email': _email.text,
+          'password': _password.text,
+          'phone': _phone.text,
+          'credit': '0',
+        }),
+      );
+      if(response.statusCode == 201  ){
+        Future.delayed(const Duration(seconds: 2)).then(
+              (_) => Navigator.pushNamed(
             context,
-            Routes.welcomeScreen,
+            Routes.loginScreen,
           ),
         );
-      } else {
+      }else{
         context.showCustomFlashMessage(
           status: "failed",
           title: "Error",
-          message: "Username and password do not match",
+          message: "Something went wrong",
           positionBottom: false,
         );
       }
@@ -62,7 +82,6 @@ class _LoginContentState extends State<LoginContent> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = context.theme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -106,7 +125,7 @@ class _LoginContentState extends State<LoginContent> {
             ),
           ],
         ),
-        const SizedBox(height: 92.0),
+        const SizedBox(height: 15.0),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 26.0),
           child: Column(
@@ -114,7 +133,7 @@ class _LoginContentState extends State<LoginContent> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Text(
-                'Sign In',
+                'Sign Up',
                 style: TextStyle(
                   fontSize: 34,
                   color: Colors.black,
@@ -123,30 +142,20 @@ class _LoginContentState extends State<LoginContent> {
               const SizedBox(height: 38.0),
               Form(
                 key: _formState,
-                child: LoginFormWidget(
+                child: RegisterFormWidget(
+                  nameController: _name,
+                  surnameController: _surname,
                   emailController: _email,
                   passwordController: _password,
+                  phoneController: _phone,
                 ),
               ),
-              const SizedBox(height: 32.0),
-              Center(
-                child: InkWell(
-                  onTap: () => context.showCustomFlashMessage(status: 'info'),
-                  child: Text(
-                    'Forgot password?',
-                    style: context.theme.textTheme.subtitle2!.copyWith(
-                      color: Colors.orange,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32.0),
+              const SizedBox(height: 28.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 42.0),
                 child: ButtonWidget(
-                  onPress: () => tryLogin(),
-                  title: 'LOGIN',
+                  onPress: () => register(),
+                  title: 'SIGN UP',
                   buttonColor: Colors.orange,
                   titleColor: Colors.white,
                   borderColor: Colors.orange,
@@ -159,20 +168,20 @@ class _LoginContentState extends State<LoginContent> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Don't have an account?",
+                    'Already have an account?',
                     style: context.theme.textTheme.subtitle2!.copyWith(
-                      color: Colors.black38,
+                      color: Colors.black26,
                       fontSize: 16,
                     ),
                   ),
                   const SizedBox(width: 8.0),
                   InkWell(
-                    onTap: () => context.showCustomFlashMessage(
-                      status: 'info',
-                      positionBottom: true,
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      Routes.loginScreen,
                     ),
                     child: Text(
-                      'Sign Up',
+                      'Sign In',
                       style: context.theme.textTheme.subtitle2!.copyWith(
                         color: Colors.orange,
                         fontSize: 16,
@@ -188,25 +197,24 @@ class _LoginContentState extends State<LoginContent> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: Row(
-                  children: [
-                    const Expanded(
+                  children: const [
+                    Expanded(
                       child: Divider(
                         thickness: 1,
                         color: Colors.grey,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                         left: 16.0,
                         right: 16.0,
                       ),
                       child: Text(
-                        'sign in with',
-                        style: theme.textTheme.subtitle2!
-                            .apply(color: Colors.black38),
+                        'sign up with',
+                        style: TextStyle(color: Colors.black26),
                       ),
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Divider(
                         thickness: 1,
                         color: Colors.grey,
@@ -222,7 +230,7 @@ class _LoginContentState extends State<LoginContent> {
               const SizedBox(height: 18.0),
             ],
           ),
-        )
+        ),
       ],
     );
   }
