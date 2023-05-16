@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quick_order/routes/routes.dart';
-import 'package:quick_order/screens/welcome/welcome_screen.dart';
 
 void main() {
   runApp(const MyApp());
