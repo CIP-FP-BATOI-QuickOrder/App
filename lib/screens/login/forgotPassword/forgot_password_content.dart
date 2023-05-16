@@ -3,21 +3,23 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:quick_order/extensions/in_progress.dart';
 import 'package:quick_order/routes/routes.dart';
+import 'package:quick_order/screens/login/forgotPassword/widgets/forgot_password_form_widget.dart';
 import 'package:quick_order/screens/login/widgets/login_form_widget.dart';
 import 'package:http/http.dart' as http;
 
-import '../../models/user.dart';
-import '../welcome/widgets/signing_button.dart';
-import '../welcome/widgets/social_media_buttons.dart';
+import '../../../models/user.dart';
+import '../../welcome/widgets/signing_button.dart';
+import '../../welcome/widgets/social_media_buttons.dart';
 
-class LoginContent extends StatefulWidget {
-  const LoginContent({super.key});
+
+class ForgotPasswordContent extends StatefulWidget {
+  const ForgotPasswordContent({super.key});
 
   @override
-  State<LoginContent> createState() => _LoginContentState();
+  State<ForgotPasswordContent> createState() => _ForgotPasswordContentState();
 }
 
-class _LoginContentState extends State<LoginContent> {
+class _ForgotPasswordContentState extends State<ForgotPasswordContent> {
   final GlobalKey<FormState> _formState = GlobalKey<FormState>();
   late TextEditingController _email;
   late TextEditingController _password;
@@ -36,15 +38,13 @@ class _LoginContentState extends State<LoginContent> {
     super.dispose();
   }
 
-  Future<void> tryLogin() async {
+  Future<void> resetPassword() async {
     if (_formState.currentState?.validate() == true) {
       final response = await http
-          .get(Uri.parse("${Routes.api}user/${_email.text}/${_password.text}"));
+          .put(Uri.parse("${Routes.api}user/email=${_email.text}/password=${_password.text}"));
       if (response.statusCode == 200) {
-        User user = User.fromJson(jsonDecode(response.body));
-
         Future.delayed(const Duration(seconds: 1)).then(
-          (_) => Navigator.pushNamed(
+              (_) => Navigator.pushNamed(
             context,
             Routes.welcomeScreen,
           ),
@@ -113,7 +113,7 @@ class _LoginContentState extends State<LoginContent> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const Text(
-                'Sign In',
+                'Reset your password',
                 style: TextStyle(
                   fontSize: 34,
                   color: Colors.black,
@@ -122,33 +122,17 @@ class _LoginContentState extends State<LoginContent> {
               const SizedBox(height: 38.0),
               Form(
                 key: _formState,
-                child: LoginFormWidget(
+                child: ForgotPasswordFormWidget(
                   emailController: _email,
                   passwordController: _password,
-                ),
-              ),
-              const SizedBox(height: 32.0),
-              Center(
-                child: InkWell(
-                  onTap: () => Navigator.pushNamed(
-                    context,
-                    Routes.forgotPasswordScreen,
-                  ),
-                  child: const Text(
-                    'Forgot password?',
-                    style: TextStyle(
-                      color: Colors.orange,
-                      fontSize: 16,
-                    ),
-                  ),
                 ),
               ),
               const SizedBox(height: 32.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 42.0),
                 child: ButtonWidget(
-                  onPress: () => tryLogin(),
-                  title: 'LOGIN',
+                  onPress: () => resetPassword(),
+                  title: 'RESET',
                   buttonColor: Colors.orange,
                   titleColor: Colors.white,
                   borderColor: Colors.orange,
@@ -161,7 +145,7 @@ class _LoginContentState extends State<LoginContent> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Text(
-                    "Don't have an account?",
+                    "Already have an account?",
                     style: TextStyle(
                       color: Colors.black38,
                       fontSize: 16,
@@ -174,7 +158,7 @@ class _LoginContentState extends State<LoginContent> {
                       Routes.registerScreen,
                     ),
                     child: const Text(
-                      'Sign Up',
+                      'Sign In',
                       style: TextStyle(
                         color: Colors.orange,
                         fontSize: 16,
