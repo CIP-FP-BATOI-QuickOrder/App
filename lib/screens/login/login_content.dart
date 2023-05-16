@@ -39,7 +39,8 @@ class _LoginContentState extends State<LoginContent> {
 
   Future<void> tryLogin() async {
     if (_formState.currentState?.validate() == true) {
-      final response = await http.get(Uri.parse("${Routes.api}user/${_email.text}/${_password.text}"));
+      final response = await http
+          .get(Uri.parse("${Routes.api}user/${_email.text}/${_password.text}"));
       if (response.statusCode == 200) {
         User user = User.fromJson(jsonDecode(response.body));
 
@@ -62,7 +63,6 @@ class _LoginContentState extends State<LoginContent> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = context.theme;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
@@ -132,9 +132,9 @@ class _LoginContentState extends State<LoginContent> {
               Center(
                 child: InkWell(
                   onTap: () => context.showCustomFlashMessage(status: 'info'),
-                  child: Text(
+                  child: const Text(
                     'Forgot password?',
-                    style: context.theme.textTheme.subtitle2!.copyWith(
+                    style: TextStyle(
                       color: Colors.orange,
                       fontSize: 16,
                     ),
@@ -158,22 +158,22 @@ class _LoginContentState extends State<LoginContent> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     "Don't have an account?",
-                    style: context.theme.textTheme.subtitle2!.copyWith(
+                    style: TextStyle(
                       color: Colors.black38,
                       fontSize: 16,
                     ),
                   ),
                   const SizedBox(width: 8.0),
                   InkWell(
-                    onTap: () => context.showCustomFlashMessage(
-                      status: 'info',
-                      positionBottom: true,
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      Routes.registerScreen,
                     ),
-                    child: Text(
+                    child: const Text(
                       'Sign Up',
-                      style: context.theme.textTheme.subtitle2!.copyWith(
+                      style: TextStyle(
                         color: Colors.orange,
                         fontSize: 16,
                         decoration: TextDecoration.underline,
@@ -188,25 +188,24 @@ class _LoginContentState extends State<LoginContent> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18.0),
                 child: Row(
-                  children: [
-                    const Expanded(
+                  children: const [
+                    Expanded(
                       child: Divider(
                         thickness: 1,
                         color: Colors.grey,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: EdgeInsets.only(
                         left: 16.0,
                         right: 16.0,
                       ),
                       child: Text(
                         'sign in with',
-                        style: theme.textTheme.subtitle2!
-                            .apply(color: Colors.black38),
+                        style: TextStyle(color: Colors.black38),
                       ),
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Divider(
                         thickness: 1,
                         color: Colors.grey,

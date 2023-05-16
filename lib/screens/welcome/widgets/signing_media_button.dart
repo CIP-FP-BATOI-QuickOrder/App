@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class ButtonSigninWidget extends StatelessWidget {
+class ButtonSigningWidget extends StatelessWidget {
   final VoidCallback onPress;
   final String title;
   final String icon;
   final Color buttonColor, titleColor, shadowColor;
 
-  const ButtonSigninWidget({
+  const ButtonSigningWidget({
     super.key,
     required this.onPress,
     required this.title,

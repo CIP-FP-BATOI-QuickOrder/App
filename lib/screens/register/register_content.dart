@@ -48,8 +48,8 @@ class _RegisterContentState extends State<RegisterContent> {
 
   Future<void> register() async {
     if (_formState.currentState?.validate() == true) {
-
-      final   response = await  http.post(Uri.parse("${Routes.api}user"),
+      final response = await http.post(
+        Uri.parse("${Routes.api}user"),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -62,14 +62,14 @@ class _RegisterContentState extends State<RegisterContent> {
           'credit': '0',
         }),
       );
-      if(response.statusCode == 201  ){
+      if (response.statusCode == 201) {
         Future.delayed(const Duration(seconds: 2)).then(
-              (_) => Navigator.pushNamed(
+          (_) => Navigator.pushNamed(
             context,
             Routes.loginScreen,
           ),
         );
-      }else{
+      } else {
         context.showCustomFlashMessage(
           status: "failed",
           title: "Error",
@@ -167,9 +167,9 @@ class _RegisterContentState extends State<RegisterContent> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Already have an account?',
-                    style: context.theme.textTheme.subtitle2!.copyWith(
+                    style: TextStyle(
                       color: Colors.black26,
                       fontSize: 16,
                     ),
@@ -180,9 +180,9 @@ class _RegisterContentState extends State<RegisterContent> {
                       context,
                       Routes.loginScreen,
                     ),
-                    child: Text(
+                    child: const Text(
                       'Sign In',
-                      style: context.theme.textTheme.subtitle2!.copyWith(
+                      style: TextStyle(
                         color: Colors.orange,
                         fontSize: 16,
                         decoration: TextDecoration.underline,

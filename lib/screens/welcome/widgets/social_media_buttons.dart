@@ -19,7 +19,7 @@ class ButtonSigninWith extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: ButtonSigninWidget(
+              child: ButtonSigningWidget(
                 onPress: () => context.showCustomFlashMessage(
                   status: 'info',
                   positionBottom: positionButtom,
@@ -35,7 +35,7 @@ class ButtonSigninWith extends StatelessWidget {
               width: 10.0,
             ),
             Expanded(
-              child: ButtonSigninWidget(
+              child: ButtonSigningWidget(
                 onPress: () => context.showCustomFlashMessage(
                   status: 'info',
                   positionBottom: positionButtom,
