@@ -39,7 +39,7 @@ class _LoginContentState extends State<LoginContent> {
   Future<void> tryLogin() async {
     if (_formState.currentState?.validate() == true) {
       final response = await http
-          .get(Uri.parse("${Routes.api}user/${_email.text}/${_password.text}"));
+          .get(Uri.parse("${Routes.api}user/email=${_email.text}/password=${_password.text}"));
       if (response.statusCode == 200) {
         User user = User.fromJson(jsonDecode(response.body));
 

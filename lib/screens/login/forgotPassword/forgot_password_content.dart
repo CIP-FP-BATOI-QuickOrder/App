@@ -53,7 +53,7 @@ class _ForgotPasswordContentState extends State<ForgotPasswordContent> {
         context.showCustomFlashMessage(
           status: "failed",
           title: "Error",
-          message: "Username and password do not match",
+          message: "Email not found",
           positionBottom: false,
         );
       }
