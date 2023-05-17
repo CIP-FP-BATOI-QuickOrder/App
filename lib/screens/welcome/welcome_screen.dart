@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quick_order/extensions/in_progress.dart';
 import 'package:quick_order/routes/routes.dart';
 import 'package:quick_order/screens/welcome/widgets/signing_button.dart';
 import 'package:quick_order/screens/welcome/widgets/social_media_buttons.dart';

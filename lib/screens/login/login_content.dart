@@ -46,7 +46,7 @@ class _LoginContentState extends State<LoginContent> {
         Future.delayed(const Duration(seconds: 1)).then(
           (_) => Navigator.pushNamed(
             context,
-            Routes.welcomeScreen,
+            Routes.home,
           ),
         );
       } else {
