@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:quick_order/screens/home/home_screen.dart';
+import 'package:quick_order/screens/home/search_screen.dart';
+import 'package:quick_order/screens/home/widgets/restaurant_search_card_widget.dart';
 import 'package:quick_order/screens/profile/profile_screen.dart';
 
 import 'package:quick_order/screens/splashscreen/splash_screen.dart';
@@ -17,6 +19,7 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.forgotPasswordScreen: (_) => ForgotPasswordScreen(),
   Routes.home: (_) => HomeScreen(),
   Routes.profileScreen: (_) => ProfileScreen(),
+  Routes.restaurantSearchScreen: (_) => SearchScreen(query:  ModalRoute.of(_)!.settings.arguments as String)
 };
 
 class Routes {

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_order/provider/restaurant_provider.dart';
+import 'package:quick_order/screens/home/widgets/search_form_field.dart';
 
 import '../../../routes/routes.dart';
 
 class FoodSearchWidget extends StatelessWidget {
   final TextEditingController searchRestaurant;
-  final restaurantListProvider;
+  final RestaurantListProvider restaurantListProvider;
 
   const FoodSearchWidget({
     Key? key,
@@ -18,21 +20,20 @@ class FoodSearchWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // Expanded(
-          // child: FormFieldWidget(
-          //   hintText: 'Find for Food or Restaurant...',
-          //   controller: searchRestaurant,
-          //   darkTheme: preferenceSettingsProvider.isDarkTheme,
-          //   onSubmitted: (p0) {
-          //     Navigator.pushNamed(
-          //       context,
-          //       Routes.restaurantSearchScreen,
-          //       arguments: p0,
-          //     ).then((value) => restaurantListProvider.refreshData);
-          //     return null;
-          //   },
-          // ),
-        // ),
+        Expanded(
+          child: FormFieldWidget(
+            hintText: 'Find for Food or Restaurant...',
+            controller: searchRestaurant,
+            onSubmitted: (p0) {
+              Navigator.pushNamed(
+                context,
+                Routes.restaurantSearchScreen,
+                arguments: p0,
+              ).then((value) => restaurantListProvider.refreshData);
+              return null;
+            },
+          ),
+        ),
         const SizedBox(width: 14.0),
         InkWell(
           onTap: () {
