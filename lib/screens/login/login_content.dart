@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,12 +24,26 @@ class _LoginContentState extends State<LoginContent> {
   final GlobalKey<FormState> _formState = GlobalKey<FormState>();
   late TextEditingController _email;
   late TextEditingController _password;
+  bool rememberPassword = false;
 
   @override
   void initState() {
     super.initState();
     _email = TextEditingController();
     _password = TextEditingController();
+
+    // Recuperar los datos de SharedPreferences
+    SharedPreferences.getInstance().then((preferences) {
+      final email = preferences.getString('email');
+      final password = preferences.getString('password');
+      if (email != null && password != null) {
+        setState(() {
+          _email.text = email;
+          _password.text = password;
+          rememberPassword = true;
+        });
+      }
+    });
   }
 
   @override
@@ -40,12 +55,23 @@ class _LoginContentState extends State<LoginContent> {
 
   Future<void> tryLogin() async {
     if (_formState.currentState?.validate() == true) {
-      final response = await http
-          .get(Uri.parse("${Routes.api}user/email=${_email.text}/password=${_password.text}"));
+      final response = await http.get(Uri.parse(
+          "${Routes.api}user/email=${_email.text}/password=${_password.text}"));
       if (response.statusCode == 200) {
         User user = User.fromJson(jsonDecode(response.body));
         final userProvider = Provider.of<UserProvider>(context, listen: false);
         userProvider.setUser(user);
+
+        if (rememberPassword) {
+          final preferences = await SharedPreferences.getInstance();
+          preferences.setString('email', _email.text);
+          preferences.setString('password', _password.text);
+        } else {
+          final preferences = await SharedPreferences.getInstance();
+          preferences.remove('email');
+          preferences.remove('password');
+        }
+
         Future.delayed(const Duration(seconds: 1)).then(
           (_) => Navigator.pushNamed(
             context,
@@ -129,6 +155,28 @@ class _LoginContentState extends State<LoginContent> {
                   emailController: _email,
                   passwordController: _password,
                 ),
+              ),
+              Row(
+                children: [
+                  Checkbox(
+                    value: rememberPassword,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        rememberPassword = value ?? false;
+                      });
+                      SharedPreferences.getInstance().then((preferences) {
+                        preferences.setBool('rememberPassword', value ?? false);
+                      });
+                    },
+                  ),
+                  const Text(
+                    'Remember password ?',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 32.0),
               Center(
