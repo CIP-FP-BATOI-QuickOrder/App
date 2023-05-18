@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../routes/routes.dart';
+import 'current_city_widget.dart';
 
 class HeaderWidget extends StatelessWidget {
   final  restaurantListProvider;
@@ -45,13 +46,7 @@ class HeaderWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 4.0),
-            const Text(
-              'Rukan CBD Greenlake City',
-              style: TextStyle(
-                color: Colors.orange,
-                fontSize: 14,
-              ),
-            ),
+            LocationPage(),
           ],
         ),
         InkWell(
