@@ -36,10 +36,10 @@ class ButtonSigninWith extends StatelessWidget {
         ),
         Expanded(
           child: ButtonSigningWidget(
-              onPress: () => Navigator.pushNamed(
-                    context,
-                    Routes.home,
-                  ),
+              onPress: () => context.showCustomFlashMessage(
+                status: 'info',
+                positionBottom: positionButtom,
+              ),
               title: 'GOOGLE',
               icon: 'assets/icons/google.png',
               buttonColor: Colors.white,
