@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_order/extensions/in_progress.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/user.dart';
 import '../../provider/user_provider.dart';
+import '../../routes/routes.dart';
 import '../welcome/widgets/signing_button.dart';
 import 'widgets/card_profile_widget.dart';
 import 'widgets/card_setting_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key, required this.context});
+
   final BuildContext? context;
 
-  User? getUser(){
-     final userProvider = Provider.of<UserProvider>(context!);
-     return userProvider.user;
+  User? getUser() {
+    final userProvider = Provider.of<UserProvider>(context!);
+    return userProvider.user;
   }
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
       body: SizedBox(
         width: size.width,
@@ -123,7 +129,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ],
             ),
-             Center(
+            Center(
               child: Text(
                 getUser()!.name,
                 style: const TextStyle(fontSize: 18),
@@ -152,11 +158,12 @@ class ProfileScreen extends StatelessWidget {
                   CardSettingWidget(),
                   const SizedBox(height: 30),
                   ButtonWidget(
-                    onPress: () => context.showCustomFlashMessage(
-                      status: 'info',
-                      title: 'Logout',
-                      positionBottom: false,
-                    ),
+                    onPress: () async {
+                      final preferences = await SharedPreferences.getInstance();
+                      preferences.remove('email');
+                      preferences.remove('password');
+                      Navigator.pushNamed(context, Routes.welcomeScreen);
+                    },
                     title: 'Logout',
                     buttonColor: Colors.orange,
                     titleColor: Colors.white,
