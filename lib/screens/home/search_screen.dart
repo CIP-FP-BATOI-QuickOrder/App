@@ -45,7 +45,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 return TextField(
                   controller: _searchText,
                   decoration: const InputDecoration(
-                    hintText: 'Find for Food or Restaurant...',
+                    hintText: 'Find for Restaurants...',
                     border: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     focusedBorder: UnderlineInputBorder(

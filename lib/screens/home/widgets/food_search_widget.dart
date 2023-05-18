@@ -22,7 +22,7 @@ class FoodSearchWidget extends StatelessWidget {
       children: [
         Expanded(
           child: FormFieldWidget(
-            hintText: 'Find for Food or Restaurant...',
+            hintText: 'Find for Restaurants...',
             controller: searchRestaurant,
             onSubmitted: (p0) {
               Navigator.pushNamed(
