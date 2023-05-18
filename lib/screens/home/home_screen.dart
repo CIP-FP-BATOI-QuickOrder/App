@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_order/models/restaurant_list.dart';
+import 'package:quick_order/screens/home/search_screen.dart';
 import 'package:quick_order/screens/home/widgets/food_search_widget.dart';
 import 'package:quick_order/screens/home/widgets/header_widget.dart';
 import 'package:quick_order/screens/home/widgets/list_restaurant_widget.dart';
 
 import '../../provider/restaurant_provider.dart';
+import '../../routes/routes.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -91,18 +93,24 @@ class _HomeScreenState extends State<HomeScreen> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children:  [
                               Padding(
-                                padding: EdgeInsets.only(top: 2.0),
-                                child: Text(
-                                  'View All',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.orange,
+                                padding: const EdgeInsets.only(top: 2.0),
+                                child: InkWell(
+                                  onTap:  () => Navigator.push(
+                                    context,
+                                      MaterialPageRoute(builder: (context) => const SearchScreen(query: ' ',))
                                   ),
-                                ),
+                                  child: const Text(
+                                    'View All',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.orange,
+                                    ),
+                                  ),
+                                )
                               ),
-                              Icon(
+                              const Icon(
                                 Icons.keyboard_arrow_right,
                                 color: Colors.orange,
                                 size: 18,
