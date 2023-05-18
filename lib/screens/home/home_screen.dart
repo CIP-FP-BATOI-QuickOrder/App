@@ -47,92 +47,99 @@ class _HomeScreenState extends State<HomeScreen> {
       BuildContext context, RestaurantListProvider restaurantListProvider) {
     Size size = MediaQuery.of(context).size;
 
-    return RefreshIndicator(
-      onRefresh: () => restaurantListProvider.refreshData,
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Scaffold(
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: SizedBox(
-                width: size.width,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 25,
-                    vertical: 25,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      HeaderWidget(
-                        restaurantListProvider: restaurantListProvider,
-                      ),
-                      const SizedBox(height: 32.0),
-                      Image.asset(
-                        'assets/images/home_title.png',
-                        width: size.width - 120,
-                      ),
-                      const SizedBox(height: 16.0),
-                      FoodSearchWidget(
-                        searchRestaurant: _searchRestaurant,
-                        restaurantListProvider: restaurantListProvider,
-                      ),
-                      const SizedBox(height: 18.0),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Flexible(
-                            child: Text(
-                              'Featured Restaurants',
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children:  [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 2.0),
-                                child: InkWell(
-                                  onTap:  () => Navigator.push(
-                                    context,
-                                      MaterialPageRoute(builder: (context) => const SearchScreen(query: ' ',))
-                                  ),
-                                  child: const Text(
-                                    'View All',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.orange,
-                                    ),
-                                  ),
-                                )
-                              ),
-                              const Icon(
-                                Icons.keyboard_arrow_right,
-                                color: Colors.orange,
-                                size: 18,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 18.0),
-                      ListRestaurant(
-                          restaurantListProvider: restaurantListProvider),
-                      const SizedBox(height: 28.0),
-                      const Text(
-                        'Popular Items',
-                        style: TextStyle(
-                          fontSize: 18,
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: RefreshIndicator(
+        onRefresh: () => restaurantListProvider.refreshData,
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 25,
+                      vertical: 25,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        HeaderWidget(
+                          restaurantListProvider: restaurantListProvider,
                         ),
-                      ),
-                      const SizedBox(height: 18.0),
-                      ListRestaurant(
-                          restaurantListProvider: restaurantListProvider),
-                    ],
+                        const SizedBox(height: 32.0),
+                        Image.asset(
+                          'assets/images/home_title.png',
+                          width: size.width - 120,
+                        ),
+                        const SizedBox(height: 16.0),
+                        FoodSearchWidget(
+                          searchRestaurant: _searchRestaurant,
+                          restaurantListProvider: restaurantListProvider,
+                        ),
+                        const SizedBox(height: 18.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Flexible(
+                              child: Text(
+                                'Featured Restaurants',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                    padding: const EdgeInsets.only(top: 2.0),
+                                    child: InkWell(
+                                      onTap: () => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const SearchScreen(
+                                                    query: ' ',
+                                                  ))),
+                                      child: const Text(
+                                        'View All',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.orange,
+                                        ),
+                                      ),
+                                    )),
+                                const Icon(
+                                  Icons.keyboard_arrow_right,
+                                  color: Colors.orange,
+                                  size: 18,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 18.0),
+                        ListRestaurant(
+                            restaurantListProvider: restaurantListProvider),
+                        const SizedBox(height: 28.0),
+                        const Text(
+                          'Popular Items',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(height: 18.0),
+                        ListRestaurant(
+                            restaurantListProvider: restaurantListProvider),
+                      ],
+                    ),
                   ),
                 ),
               ),
