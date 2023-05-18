@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_order/screens/home/home_screen.dart';
 import 'package:quick_order/screens/home/search_screen.dart';
 import 'package:quick_order/screens/home/widgets/restaurant_search_card_widget.dart';
@@ -6,6 +7,7 @@ import 'package:quick_order/screens/profile/profile_screen.dart';
 
 import 'package:quick_order/screens/splashscreen/splash_screen.dart';
 
+import '../provider/user_provider.dart';
 import '../screens/login/forgotPassword/forgot_password.dart';
 import '../screens/login/login.dart';
 import '../screens/register/register.dart';
@@ -18,7 +20,7 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.registerScreen: (_) => RegisterScreen(),
   Routes.forgotPasswordScreen: (_) => ForgotPasswordScreen(),
   Routes.home: (_) => HomeScreen(),
-  Routes.profileScreen: (_) => ProfileScreen(),
+  Routes.profileScreen: (_) => ProfileScreen(context:  ModalRoute.of(_)!.subtreeContext),
   Routes.restaurantSearchScreen: (_) => SearchScreen(query:  ModalRoute.of(_)!.settings.arguments as String)
 };
 

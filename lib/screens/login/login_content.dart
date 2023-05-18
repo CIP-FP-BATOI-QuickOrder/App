@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_order/extensions/in_progress.dart';
 import 'package:quick_order/routes/routes.dart';
 import 'package:quick_order/screens/login/widgets/login_form_widget.dart';
 import 'package:http/http.dart' as http;
 
 import '../../models/user.dart';
+import '../../provider/user_provider.dart';
 import '../welcome/widgets/signing_button.dart';
 import '../welcome/widgets/social_media_buttons.dart';
 
@@ -42,7 +44,8 @@ class _LoginContentState extends State<LoginContent> {
           .get(Uri.parse("${Routes.api}user/email=${_email.text}/password=${_password.text}"));
       if (response.statusCode == 200) {
         User user = User.fromJson(jsonDecode(response.body));
-
+        final userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.setUser(user);
         Future.delayed(const Duration(seconds: 1)).then(
           (_) => Navigator.pushNamed(
             context,

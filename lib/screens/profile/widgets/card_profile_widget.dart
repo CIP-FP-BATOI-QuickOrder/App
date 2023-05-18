@@ -1,9 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class CardProfileWidget extends StatelessWidget {
-  const CardProfileWidget({
+import '../../../models/user.dart';
+import '../../../provider/user_provider.dart';
+
+class CardProfileWidget extends StatefulWidget {
+  CardProfileWidget({
     Key? key,
   }) : super(key: key);
+
+  @override
+  _CardProfileWidgetState createState() => _CardProfileWidgetState();
+}
+
+class _CardProfileWidgetState extends State<CardProfileWidget> {
+  User? getUser(){
+    final userProvider = Provider.of<UserProvider>(context!);
+    return userProvider.user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,32 +57,32 @@ class CardProfileWidget extends StatelessWidget {
             ],
           ),
           child: Column(
-            children: const [
+            children:  [
               DataProfile(
-                icon: Icon(
+                icon: const Icon(
                   Icons.credit_card,
                   size: 15,
                   color: Colors.white,
                 ),
-                title: 'User FoodHub',
+                title: "${getUser()!.name} ${getUser()!.surname}"
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               DataProfile(
-                icon: Icon(
+                icon: const Icon(
                   Icons.email,
                   size: 15,
                   color: Colors.white,
                 ),
-                title: 'user@foodhub.id',
+                title:  getUser()!.email,
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
               DataProfile(
-                icon: Icon(
+                icon: const Icon(
                   Icons.phone,
                   size: 15,
                   color: Colors.white,
                 ),
-                title: '(+62) 221-232-329',
+                title:  getUser()!.phone,
               ),
             ],
           ),
@@ -79,7 +93,6 @@ class CardProfileWidget extends StatelessWidget {
 }
 
 class DataProfile extends StatelessWidget {
-
   const DataProfile({
     Key? key,
     required this.icon,
@@ -87,11 +100,10 @@ class DataProfile extends StatelessWidget {
   }) : super(key: key);
 
   final Icon icon;
-  final String title;
+  final String? title;
 
   @override
   Widget build(BuildContext context) {
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -114,13 +126,13 @@ class DataProfile extends StatelessWidget {
         const SizedBox(width: 8),
         Flexible(
           child: Text(
-            title,
+            title!,
             style: const TextStyle(
               fontSize: 14,
               color: Colors.grey,
             ),
           ),
-        )
+        ),
       ],
     );
   }
