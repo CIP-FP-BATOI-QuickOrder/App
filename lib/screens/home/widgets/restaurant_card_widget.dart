@@ -6,6 +6,8 @@ class RestaurantCardWidget extends StatefulWidget {
   final String name;
   final String city;
   final String pictureId;
+  final int delivery_time;
+  final int delivery_price;
 
   const RestaurantCardWidget({
     super.key,
@@ -13,6 +15,8 @@ class RestaurantCardWidget extends StatefulWidget {
     required this.name,
     required this.city,
     required this.pictureId,
+    required this.delivery_time,
+    required this.delivery_price,
   });
 
   @override
@@ -43,22 +47,24 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
                     width: size.width,
                     height: 149,
                     child: ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(18),
-                        topRight: Radius.circular(18),
-                      ),
-                      child:FutureBuilder(
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return CircularProgressIndicator();
-                          } else if (snapshot.hasError) {
-                            return const Text('Error loading image');
-                          } else {
-                            return Image.network('http://192.168.1.18/${widget.pictureId}', fit: BoxFit.fill);
-                          }
-                        },
-                      )
-                    ),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(18),
+                          topRight: Radius.circular(18),
+                        ),
+                        child: FutureBuilder(
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return const Text('Error loading image');
+                            } else {
+                              return Image.network(
+                                  'http://192.168.1.18/${widget.pictureId}',
+                                  fit: BoxFit.fill);
+                            }
+                          },
+                        )),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(12.0),
@@ -187,10 +193,10 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
                           width: 14,
                         ),
                         const SizedBox(width: 4.0),
-                        const Flexible(
+                         Flexible(
                           child: Text(
-                            'Free delivery',
-                            style: TextStyle(
+                            "${widget.delivery_price} €",
+                            style: const TextStyle(
                               color: Colors.black26,
                               fontSize: 12,
                               overflow: TextOverflow.ellipsis,
@@ -203,10 +209,10 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
                           width: 10,
                         ),
                         const SizedBox(width: 4.0),
-                        const Flexible(
+                        Flexible(
                           child: Text(
-                            '10-15 mins',
-                            style: TextStyle(
+                            '${widget.delivery_time} mins',
+                            style: const TextStyle(
                               color: Colors.black26,
                               fontSize: 12,
                               overflow: TextOverflow.ellipsis,

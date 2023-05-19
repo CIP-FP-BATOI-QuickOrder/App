@@ -47,6 +47,8 @@ class ListRestaurant extends StatelessWidget {
                 name: restaurants[index].name,
                 city: restaurants[index].city,
                 pictureId: restaurants[index].photo,
+                delivery_price: restaurants[index].delivery_price,
+                delivery_time: restaurants[index].delivery_time,
               ),
             );
           },
