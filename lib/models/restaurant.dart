@@ -6,8 +6,9 @@ class Restaurant {
   String photo;
   String city;
   String direction;
-  int delivery_time;
-  int delivery_price;
+  int deliveryTime;
+  int deliveryPrice;
+  List<String> tags;
 
   Restaurant(
       {required this.id,
@@ -17,19 +18,32 @@ class Restaurant {
       required this.photo,
       required this.city,
       required this.direction,
-      required this.delivery_price,
-      required this.delivery_time});
+      required this.deliveryPrice,
+      required this.deliveryTime,
+      required this.tags});
 
   factory Restaurant.fromJson(Map<String, dynamic> map) {
+    var tagsList = <String>[];
+    if (map['tags'] != null && map['tags'] is List) {
+      var tags = map['tags'] as List;
+      tags.forEach((tag) {
+        if (tag['name'] != null) {
+          tagsList.add(tag['name']);
+        }
+      });
+    }
+
     return Restaurant(
-        id: map['id'],
-        name: map['name'],
-        nif: map['nif'],
-        city: map['city'],
-        direction: map['direction'],
-        password: map['password'],
-        photo: map['photo'],
-        delivery_price: map['deliveryPrice'],
-        delivery_time: map['deliveryTime']);
+      id: map['id'],
+      name: map['name'],
+      nif: map['nif'],
+      city: map['city'],
+      direction: map['direction'],
+      password: map['password'],
+      photo: map['photo'],
+      deliveryPrice: map['deliveryPrice'],
+      deliveryTime: map['deliveryTime'],
+      tags: tagsList,
+    );
   }
 }

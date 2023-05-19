@@ -6,18 +6,19 @@ class RestaurantCardWidget extends StatefulWidget {
   final String name;
   final String city;
   final String pictureId;
-  final int delivery_time;
-  final int delivery_price;
+  final int deliveryTime;
+  final int deliveryPrice;
+  final List<String> tags;
 
-  const RestaurantCardWidget({
-    super.key,
-    required this.id,
-    required this.name,
-    required this.city,
-    required this.pictureId,
-    required this.delivery_time,
-    required this.delivery_price,
-  });
+  const RestaurantCardWidget(
+      {super.key,
+      required this.id,
+      required this.name,
+      required this.city,
+      required this.pictureId,
+      required this.deliveryTime,
+      required this.deliveryPrice,
+      required this.tags});
 
   @override
   State<RestaurantCardWidget> createState() => _RestaurantCardWidgetState();
@@ -193,9 +194,9 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
                           width: 14,
                         ),
                         const SizedBox(width: 4.0),
-                         Flexible(
+                        Flexible(
                           child: Text(
-                            "${widget.delivery_price} €",
+                            "${widget.deliveryPrice} €",
                             style: const TextStyle(
                               color: Colors.black26,
                               fontSize: 12,
@@ -211,7 +212,7 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
                         const SizedBox(width: 4.0),
                         Flexible(
                           child: Text(
-                            '${widget.delivery_time} mins',
+                            '${widget.deliveryTime} mins',
                             style: const TextStyle(
                               color: Colors.black26,
                               fontSize: 12,
@@ -222,38 +223,25 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
                       ],
                     ),
                     const SizedBox(height: 12.0),
-                    Row(
-                      children: [
-                        Container(
+                    Wrap(
+                      spacing: 10.0,
+                      runSpacing: 10.0,
+                      children: widget.tags.map((tagName) {
+                        return Container(
                           padding: const EdgeInsets.all(6),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
                             color: Colors.grey.withOpacity(0.15),
                           ),
-                          child: const Text(
-                            'Food',
-                            style: TextStyle(
+                          child: Text(
+                            tagName,
+                            style: const TextStyle(
                               color: Colors.black54,
                               fontSize: 12,
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 10.0),
-                        Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            color: Colors.grey.withOpacity(0.15),
-                          ),
-                          child: const Text(
-                            'Drink',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ),
-                      ],
+                        );
+                      }).toList(),
                     ),
                   ],
                 ),
