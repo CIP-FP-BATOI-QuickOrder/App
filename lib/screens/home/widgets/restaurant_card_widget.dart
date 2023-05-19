@@ -30,7 +30,15 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SizedBox(
+    var orientation = MediaQuery.of(context).orientation;
+    final isPortrait = orientation == Orientation.portrait;
+    final cardWidth = isPortrait ? 280.0 : 320.0; // Ancho máximo del widget según la orientación
+
+
+    return Container(
+      constraints: BoxConstraints(
+        maxWidth: cardWidth,
+      ),
       width: size.width - 90,
       child: Card(
         color: Colors.white,
