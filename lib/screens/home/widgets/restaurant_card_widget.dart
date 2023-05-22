@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:quick_order/routes/routes.dart';
+import 'package:quick_order/screens/home/widgets/rating_widget.dart';
 
 class RestaurantCardWidget extends StatefulWidget {
   final int id;
@@ -10,6 +10,7 @@ class RestaurantCardWidget extends StatefulWidget {
   final int deliveryTime;
   final int deliveryPrice;
   final List<String> tags;
+  final double rating;
 
   const RestaurantCardWidget(
       {super.key,
@@ -19,7 +20,8 @@ class RestaurantCardWidget extends StatefulWidget {
       required this.pictureId,
       required this.deliveryTime,
       required this.deliveryPrice,
-      required this.tags});
+      required this.tags,
+      required this.rating});
 
   @override
   State<RestaurantCardWidget> createState() => _RestaurantCardWidgetState();
@@ -33,8 +35,9 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
     Size size = MediaQuery.of(context).size;
     var orientation = MediaQuery.of(context).orientation;
     final isPortrait = orientation == Orientation.portrait;
-    final cardWidth = isPortrait ? 280.0 : 320.0; // Ancho máximo del widget según la orientación
-
+    final cardWidth = isPortrait
+        ? 280.0
+        : 320.0; // Ancho máximo del widget según la orientación
 
     return Container(
       constraints: BoxConstraints(
@@ -81,9 +84,9 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // RatingWidget(
-                        //   rating: widget.rating,
-                        // ),
+                        RatingWidget(
+                          rating: widget.rating,
+                        ),
                         // Consumer<RestaurantFavoriteProvider>(
                         //   builder:
                         //       (context, restaurantFavoriteProvider, _) {

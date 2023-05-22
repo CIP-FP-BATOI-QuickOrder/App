@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_order/provider/restaurant_provider.dart';
 
 import '../../../routes/routes.dart';
 import 'current_city_widget.dart';
 
 class HeaderWidget extends StatelessWidget {
-  final restaurantListProvider;
+  final RestaurantListProvider restaurantListProvider;
 
   const HeaderWidget({
     super.key,

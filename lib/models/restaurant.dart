@@ -8,6 +8,7 @@ class Restaurant {
   String direction;
   int deliveryTime;
   int deliveryPrice;
+  double rating;
   List<String> tags;
 
   Restaurant(
@@ -20,6 +21,7 @@ class Restaurant {
       required this.direction,
       required this.deliveryPrice,
       required this.deliveryTime,
+      required this.rating,
       required this.tags});
 
   factory Restaurant.fromJson(Map<String, dynamic> map) {
@@ -43,6 +45,7 @@ class Restaurant {
       photo: map['photo'],
       deliveryPrice: map['deliveryPrice'],
       deliveryTime: map['deliveryTime'],
+      rating: map['rating'],
       tags: tagsList,
     );
   }

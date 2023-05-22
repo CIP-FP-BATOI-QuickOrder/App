@@ -50,6 +50,7 @@ class ListRestaurant extends StatelessWidget {
                 deliveryPrice: restaurants[index].deliveryPrice,
                 deliveryTime: restaurants[index].deliveryTime,
                 tags: restaurants[index].tags,
+                rating: restaurants[index].rating,
               ),
             );
           },
