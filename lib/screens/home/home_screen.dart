@@ -4,6 +4,7 @@ import 'package:quick_order/models/restaurant_list.dart';
 import 'package:quick_order/screens/home/search_screen.dart';
 import 'package:quick_order/screens/home/widgets/food_search_widget.dart';
 import 'package:quick_order/screens/home/widgets/header_widget.dart';
+import 'package:quick_order/screens/home/widgets/list_popular_restaurants_widget.dart';
 import 'package:quick_order/screens/home/widgets/list_restaurant_widget.dart';
 
 import '../../provider/restaurant_provider.dart';
@@ -136,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         const SizedBox(height: 18.0),
-                        ListRestaurant(
+                        ListPopularRestaurant(
                             restaurantListProvider: restaurantListProvider),
                       ],
                     ),
