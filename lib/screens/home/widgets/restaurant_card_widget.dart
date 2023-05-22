@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_order/routes/routes.dart';
 
 class RestaurantCardWidget extends StatefulWidget {
   final int id;
@@ -64,12 +65,12 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return CircularProgressIndicator();
+                              return const CircularProgressIndicator();
                             } else if (snapshot.hasError) {
                               return const Text('Error loading image');
                             } else {
                               return Image.network(
-                                  'http://192.168.1.18/${widget.pictureId}',
+                                  '${Routes.apache}${widget.pictureId}',
                                   fit: BoxFit.fill);
                             }
                           },

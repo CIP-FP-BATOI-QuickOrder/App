@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../routes/routes.dart';
+
 class RestaurantSearchCardWidget extends StatefulWidget {
   final String name;
   final String pictureId;
@@ -46,7 +48,7 @@ class _RestaurantSearchCardWidgetState
                     } else if (snapshot.hasError) {
                       return const Text('Error loading image');
                     } else {
-                      return Image.network('http://192.168.1.18/${widget.pictureId}',height: 100, width: 120, fit: BoxFit.cover,);
+                      return Image.network('${Routes.apache}${widget.pictureId}',height: 100, width: 120, fit: BoxFit.cover,);
                     }
                   },
                 )

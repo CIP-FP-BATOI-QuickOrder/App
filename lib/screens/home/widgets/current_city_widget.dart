@@ -62,7 +62,7 @@ class _LocationPageState extends State<LocationPage> {
       Placemark place = placemarks[0];
       setState(() {
         _currentAddress =
-            '${place.street}, ${place.subLocality}, ${place.subAdministrativeArea}, ${place.postalCode}';
+            '${place.locality}\n${place.street}';
       });
     }).catchError((e) {
       debugPrint(e);
@@ -78,6 +78,8 @@ class _LocationPageState extends State<LocationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(_currentAddress ?? "Loading");
+    return Text(_currentAddress ?? "Loading",
+      textAlign: TextAlign.center,
+    );
   }
 }

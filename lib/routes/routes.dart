@@ -26,6 +26,7 @@ Map<String, WidgetBuilder> routesApp = {
 
 class Routes {
   static const api = "http://192.168.1.24:8086/";
+  static const apache = "http://192.168.1.24/";
   static const splashScreen = "splash_screen";
   static const loginScreen = "login_screen";
   static const welcomeScreen = "welcome_screen";

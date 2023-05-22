@@ -5,7 +5,7 @@ import '../../../routes/routes.dart';
 import 'current_city_widget.dart';
 
 class HeaderWidget extends StatelessWidget {
-  final  restaurantListProvider;
+  final restaurantListProvider;
 
   const HeaderWidget({
     super.key,
@@ -29,7 +29,7 @@ class HeaderWidget extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
+            Padding(padding: const EdgeInsets.only(left: 20), child: Row(
               children: const [
                 Text(
                   'Deliver to',
@@ -37,6 +37,7 @@ class HeaderWidget extends StatelessWidget {
                     color: Colors.grey,
                     fontSize: 14,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 Icon(
                   Icons.arrow_drop_down,
@@ -44,9 +45,9 @@ class HeaderWidget extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ],
-            ),
+            ),),
             const SizedBox(height: 4.0),
-            LocationPage(),
+            const LocationPage(),
           ],
         ),
         InkWell(
