@@ -7,7 +7,9 @@ import 'package:quick_order/screens/home/widgets/header_widget.dart';
 import 'package:quick_order/screens/home/widgets/list_popular_restaurants_widget.dart';
 import 'package:quick_order/screens/home/widgets/list_restaurant_widget.dart';
 
+import '../../models/user.dart';
 import '../../provider/restaurant_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../routes/routes.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -128,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 18.0),
                         ListRestaurant(
-                            restaurantListProvider: restaurantListProvider),
+                            restaurantListProvider: restaurantListProvider, context: context),
                         const SizedBox(height: 28.0),
                         const Text(
                           'Popular Items',
@@ -138,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         const SizedBox(height: 18.0),
                         ListPopularRestaurant(
-                            restaurantListProvider: restaurantListProvider),
+                            restaurantListProvider: restaurantListProvider, context: context,),
                       ],
                     ),
                   ),

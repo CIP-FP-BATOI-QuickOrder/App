@@ -1,6 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quick_order/extensions/in_progress.dart';
 import 'package:quick_order/routes/routes.dart';
 import 'package:quick_order/screens/home/widgets/rating_widget.dart';
+import 'package:http/http.dart' as http;
+
+import '../../../models/user.dart';
+import '../../../provider/user_provider.dart';
 
 class RestaurantCardWidget extends StatefulWidget {
   final int id;
@@ -11,6 +19,7 @@ class RestaurantCardWidget extends StatefulWidget {
   final int deliveryPrice;
   final List<String> tags;
   final double rating;
+  final int userId;
 
   const RestaurantCardWidget(
       {super.key,
@@ -21,14 +30,60 @@ class RestaurantCardWidget extends StatefulWidget {
       required this.deliveryTime,
       required this.deliveryPrice,
       required this.tags,
-      required this.rating});
+      required this.rating,
+      required this.userId});
 
   @override
   State<RestaurantCardWidget> createState() => _RestaurantCardWidgetState();
 }
 
 class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
-  bool isFavorite = false;
+  bool _isFavorite = false;
+
+  User? getUser() {
+    final userProvider = Provider.of<UserProvider>(context);
+    return userProvider.user;
+  }
+
+  Future<bool> addToFavorites() async {
+    final response =
+        await http.get(Uri.parse("${Routes.api}favorites/add/user=${widget.userId}/restaurant=${widget.id}"));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> removeFromFavorites() async {
+    final response = await http
+        .get(Uri.parse("${Routes.api}favorites/remove/user=${widget.userId}/restaurant=${widget.id}"));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void isFavorite() async {
+    final response =
+        await http.get(Uri.parse("${Routes.api}favorites/user=${widget.userId}/restaurant=${widget.id}"));
+    if (response.statusCode == 200) {
+      setState(() {
+        _isFavorite = true;
+      });
+    } else {
+      setState(() {
+        _isFavorite = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    isFavorite();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,86 +142,61 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
                         RatingWidget(
                           rating: widget.rating,
                         ),
-                        // Consumer<RestaurantFavoriteProvider>(
-                        //   builder:
-                        //       (context, restaurantFavoriteProvider, _) {
-                        //     return InkWell(
-                        //       borderRadius: BorderRadius.circular(20),
-                        //       splashColor: orangeColor,
-                        //       onTap: () async {
-                        //         final favoriteCheck =
-                        //         await restaurantFavoriteProvider
-                        //             .isRestaurantFavorite(widget.id);
-                        //
-                        //         if (favoriteCheck) {
-                        //           restaurantFavoriteProvider
-                        //               .removeRestaurantFavorite(widget.id);
-                        //
-                        //           context.showCustomFlashMessage(
-                        //             status: 'success',
-                        //             title: 'Success Add Favorite',
-                        //             positionBottom: false,
-                        //             message:
-                        //             'Add ${widget.name} to your Favorite',
-                        //           );
-                        //         } else {
-                        //           restaurantFavoriteProvider
-                        //               .addResturantFavorite(
-                        //             RestaurantDetail(
-                        //               id: widget.id,
-                        //               name: widget.name,
-                        //               city: widget.city,
-                        //               pictureId: widget.pictureId,
-                        //               rating: widget.rating,
-                        //             ),
-                        //           );
-                        //
-                        //           context.showCustomFlashMessage(
-                        //             status: 'success',
-                        //             title: 'Success Add Favorite',
-                        //             positionBottom: false,
-                        //             message:
-                        //             'Add ${widget.name} to your Favorite',
-                        //           );
-                        //         }
-                        //         setState(() {
-                        //           isFavorite = !isFavorite;
-                        //         });
-                        //       },
-                        //       child: isFavorite
-                        //           ? Card(
-                        //         color: orangeColor,
-                        //         shape: RoundedRectangleBorder(
-                        //           borderRadius:
-                        //           BorderRadius.circular(20),
-                        //         ),
-                        //         child: const Padding(
-                        //           padding: EdgeInsets.all(6),
-                        //           child: Icon(
-                        //             Icons.favorite,
-                        //             color: whiteColor,
-                        //             size: 20,
-                        //           ),
-                        //         ),
-                        //       )
-                        //           : Card(
-                        //         color: Colors.grey.withOpacity(0.5),
-                        //         shape: RoundedRectangleBorder(
-                        //           borderRadius:
-                        //           BorderRadius.circular(20),
-                        //         ),
-                        //         child: const Padding(
-                        //           padding: EdgeInsets.all(6),
-                        //           child: Icon(
-                        //             Icons.favorite,
-                        //             color: whiteColor,
-                        //             size: 20,
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     );
-                        //   },
-                        // ),
+                        InkWell(
+                          borderRadius: BorderRadius.circular(20),
+                          splashColor: Colors.orange,
+                          onTap: () async {
+                            if (!_isFavorite) {
+                              addToFavorites();
+                              context.showCustomFlashMessage(
+                                status: 'success',
+                                title: 'Success Add Favorite',
+                                positionBottom: false,
+                                message: 'Add ${widget.name} to your Favorite',
+                              );
+                            } else {
+                              removeFromFavorites();
+                              context.showCustomFlashMessage(
+                                status: 'success',
+                                title: 'Success remove Favorite',
+                                positionBottom: false,
+                                message: 'Add ${widget.name} to your Favorite',
+                              );
+                            }
+                            setState(() {
+                             _isFavorite = !_isFavorite;
+                            });
+                          },
+                          child: _isFavorite
+                              ? Card(
+                                  color: Colors.orange,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(6),
+                                    child: Icon(
+                                      Icons.favorite,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                )
+                              : Card(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(6),
+                                    child: Icon(
+                                      Icons.favorite,
+                                      color: Colors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                        ),
                       ],
                     ),
                   ),

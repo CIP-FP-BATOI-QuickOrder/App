@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_order/screens/home/widgets/restaurant_card_widget.dart';
 
+import '../../../models/user.dart';
 import '../../../provider/response_state.dart';
 import '../../../provider/restaurant_provider.dart';
+import '../../../provider/user_provider.dart';
 import '../../../routes/routes.dart';
 
 class ListPopularRestaurant extends StatelessWidget {
@@ -10,8 +13,14 @@ class ListPopularRestaurant extends StatelessWidget {
 
   const ListPopularRestaurant({
     super.key,
-    required this.restaurantListProvider,
+    required this.restaurantListProvider, required this.context,
   });
+  final BuildContext? context;
+
+  User? getUser() {
+    final userProvider = Provider.of<UserProvider>(context!);
+    return userProvider.user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +60,7 @@ class ListPopularRestaurant extends StatelessWidget {
                 deliveryTime: restaurants[index].deliveryTime,
                 tags: restaurants[index].tags,
                 rating: restaurants[index].rating,
+                userId: getUser()!.id,
               ),
             );
           },
