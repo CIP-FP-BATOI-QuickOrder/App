@@ -118,7 +118,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   name: restaurants[index].name,
                   pictureId: restaurants[index].photo,
                   city: restaurants[index].city,
-                  // rating: restaurants[index].rating,
+                  rating: restaurants[index].rating,
+                  deliveryPrice: restaurants[index].deliveryPrice,
+                  deliveryTime: restaurants[index].deliveryTime,
                 ),
               );
             },

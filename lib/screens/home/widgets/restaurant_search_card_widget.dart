@@ -7,6 +7,9 @@ class RestaurantSearchCardWidget extends StatefulWidget {
   final String name;
   final String pictureId;
   final String city;
+  final int deliveryTime;
+  final int deliveryPrice;
+  final double rating;
   // final dynamic rating;
 
   const RestaurantSearchCardWidget({
@@ -14,7 +17,9 @@ class RestaurantSearchCardWidget extends StatefulWidget {
     required this.name,
     required this.pictureId,
     required this.city,
-    // required this.rating,
+    required this.deliveryTime,
+    required this.deliveryPrice,
+    required this.rating,
   });
 
   @override
@@ -40,19 +45,23 @@ class _RestaurantSearchCardWidgetState
             Container(
               padding: const EdgeInsets.only(left: 5),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(10.0),
-                child: FutureBuilder(
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return const Text('Error loading image');
-                    } else {
-                      return Image.network('${Routes.apache}${widget.pictureId}',height: 100, width: 120, fit: BoxFit.cover,);
-                    }
-                  },
-                )
-              ),
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: FutureBuilder(
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return const Text('Error loading image');
+                      } else {
+                        return Image.network(
+                          '${Routes.apache}${widget.pictureId}',
+                          height: 100,
+                          width: 120,
+                          fit: BoxFit.cover,
+                        );
+                      }
+                    },
+                  )),
             ),
             Expanded(
               child: Container(
@@ -110,8 +119,8 @@ class _RestaurantSearchCardWidgetState
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: const [
-                        Icon(
+                      children:  [
+                        const Icon(
                           Icons.star,
                           color: Colors.yellow,
                           size: 15,
@@ -124,14 +133,14 @@ class _RestaurantSearchCardWidgetState
                             )
                           ],
                         ),
-                        SizedBox(width: 4),
-                        // Flexible(
-                        //   child: Text(
-                        //     widget.rating.toString(),
-                        //     style: const TextStyle(fontSize: 14),
-                        //     overflow: TextOverflow.ellipsis,
-                        //   ),
-                        // ),
+                        const SizedBox(width: 4),
+                        Flexible(
+                          child: Text(
+                            widget.rating.toString(),
+                            style: TextStyle(fontSize: 14),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -145,10 +154,11 @@ class _RestaurantSearchCardWidgetState
                             width: 14,
                           ),
                           const SizedBox(width: 4.0),
-                          const Flexible(
+                          Flexible(
                             child: Text(
-                              'Free delivery',
-                              style: TextStyle(
+                              "${widget.deliveryPrice} €",
+                              style: const TextStyle(
+                                color: Colors.black,
                                 fontSize: 12,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -160,10 +170,11 @@ class _RestaurantSearchCardWidgetState
                             width: 10,
                           ),
                           const SizedBox(width: 4.0),
-                          const Flexible(
+                          Flexible(
                             child: Text(
-                              '10-15 mins',
-                              style: TextStyle(
+                              '${widget.deliveryTime} mins',
+                              style: const TextStyle(
+                                color: Colors.black,
                                 fontSize: 12,
                                 overflow: TextOverflow.ellipsis,
                               ),

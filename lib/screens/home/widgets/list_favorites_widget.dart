@@ -39,7 +39,7 @@ class ListFavoritesRestaurant extends StatelessWidget {
       var restaurants = restaurantListProvider.favoritesList!.restaurants;
 
       return ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: size.height),
+        constraints: BoxConstraints(maxHeight: size.height - 60),
         child: ListView.builder(
           itemCount: restaurants.length,
           scrollDirection: Axis.vertical,
@@ -58,6 +58,9 @@ class ListFavoritesRestaurant extends StatelessWidget {
                 name: restaurants[index].name,
                 city: restaurants[index].city,
                 pictureId: restaurants[index].photo,
+                rating: restaurants[index].rating,
+                deliveryPrice: restaurants[index].deliveryPrice,
+                deliveryTime: restaurants[index].deliveryTime,
               ),
             );
           },
