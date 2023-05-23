@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<RestaurantListProvider>(
-      create: (context) => RestaurantListProvider(),
+      create: (context) => RestaurantListProvider(context),
       child: Consumer<RestaurantListProvider>(
         builder: (context, restaurantListProvider, _) {
           return _homeScreen(context, restaurantListProvider);

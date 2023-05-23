@@ -8,6 +8,7 @@ import 'package:quick_order/screens/profile/profile_screen.dart';
 import 'package:quick_order/screens/splashscreen/splash_screen.dart';
 
 import '../provider/user_provider.dart';
+import '../screens/home/favorite_screen.dart';
 import '../screens/login/forgotPassword/forgot_password.dart';
 import '../screens/login/login.dart';
 import '../screens/register/register.dart';
@@ -21,7 +22,8 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.forgotPasswordScreen: (_) => ForgotPasswordScreen(),
   Routes.home: (_) => HomeScreen(),
   Routes.profileScreen: (_) => ProfileScreen(context:  ModalRoute.of(_)!.subtreeContext),
-  Routes.restaurantSearchScreen: (_) => SearchScreen(query:  ModalRoute.of(_)!.settings.arguments as String)
+  Routes.restaurantSearchScreen: (_) => SearchScreen(query:  ModalRoute.of(_)!.settings.arguments as String),
+  Routes.restaurantFavoriteScreen: (_) => FavoritesScreen()
 };
 
 class Routes {

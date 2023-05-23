@@ -110,8 +110,8 @@ class _RestaurantSearchCardWidgetState
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Icon(
+                      children: const [
+                        Icon(
                           Icons.star,
                           color: Colors.yellow,
                           size: 15,
@@ -124,7 +124,7 @@ class _RestaurantSearchCardWidgetState
                             )
                           ],
                         ),
-                        const SizedBox(width: 4),
+                        SizedBox(width: 4),
                         // Flexible(
                         //   child: Text(
                         //     widget.rating.toString(),
