@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_order/provider/restaurant_provider.dart';
 
+import '../../../models/user.dart';
+import '../../../provider/user_provider.dart';
 import '../../../routes/routes.dart';
 import 'current_city_widget.dart';
 
@@ -11,10 +13,20 @@ class HeaderWidget extends StatelessWidget {
   const HeaderWidget({
     super.key,
     required this.restaurantListProvider,
+    required this.context,
   });
+
+  final BuildContext context;
+
+  User? getUser() {
+    final userProvider = Provider.of<UserProvider>(context);
+    return userProvider.user;
+  }
 
   @override
   Widget build(BuildContext context) {
+    User? user = getUser();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -22,31 +34,44 @@ class HeaderWidget extends StatelessWidget {
           onTap: () => Navigator.pushNamed(context, Routes.profileScreen),
           enableFeedback: false,
           borderRadius: BorderRadius.circular(14),
-          child: Image.asset(
-            'assets/icons/user.png',
-            width: 40,
+          child: FutureBuilder(
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return const Text('Error loading image');
+              } else {
+                return CircleAvatar(
+                  backgroundImage: NetworkImage('${Routes.apache}${user?.photo}'),
+                  radius: 25,
+                );
+              }
+            },
           ),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(padding: const EdgeInsets.only(left: 20), child: Row(
-              children: const [
-                Text(
-                  'Deliver to',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 14,
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Row(
+                children: const [
+                  Text(
+                    'Deliver to',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                Icon(
-                  Icons.arrow_drop_down,
-                  size: 22,
-                  color: Colors.grey,
-                ),
-              ],
-            ),),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    size: 22,
+                    color: Colors.grey,
+                  ),
+                ],
+              ),
+            ),
             const SizedBox(height: 4.0),
             const LocationPage(),
           ],

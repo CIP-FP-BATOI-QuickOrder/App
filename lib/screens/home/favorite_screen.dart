@@ -4,7 +4,6 @@ import 'package:quick_order/screens/home/widgets/list_favorites_widget.dart';
 
 import '../../provider/restaurant_provider.dart';
 
-
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
 
@@ -48,10 +47,25 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Scaffold(
+          appBar: AppBar(
+            title: const TextField(
+              decoration: InputDecoration(
+                hintText: 'Your favorites',
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.orange),
+                ),
+                contentPadding: EdgeInsets.symmetric(horizontal: 8),
+              ),
+              cursorColor: Colors.black,
+            ),
+          ),
           body: SafeArea(
             child: SingleChildScrollView(
               child: SizedBox(
                 width: size.width,
+                height: size.height - 70,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 25,

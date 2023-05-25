@@ -73,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         HeaderWidget(
                           restaurantListProvider: restaurantListProvider,
+                          context: context,
                         ),
                         const SizedBox(height: 32.0),
                         Image.asset(

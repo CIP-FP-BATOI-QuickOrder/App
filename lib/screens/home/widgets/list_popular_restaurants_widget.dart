@@ -47,9 +47,9 @@ class ListPopularRestaurant extends StatelessWidget {
                   _,
                   Routes.restaurantDetailScreen,
                   arguments: restaurants[index].id,
-                ).then((value) => restaurantListProvider.refreshData);
+                ).then((value) => restaurantListProvider.refreshPopularData);
               },
-              onLongPress: () => restaurantListProvider.refreshData,
+              onLongPress: () => restaurantListProvider.refreshPopularData,
               borderRadius: BorderRadius.circular(25),
               child: RestaurantCardWidget(
                 id: restaurants[index].id,

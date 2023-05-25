@@ -1,7 +1,15 @@
+import 'dart:io';
+
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_order/extensions/in_progress.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:http_parser/http_parser.dart';
 
 import '../../models/user.dart';
 import '../../provider/user_provider.dart';
@@ -22,9 +30,35 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery
-        .of(context)
-        .size;
+    final ImagePicker picker = ImagePicker();
+    User? user = getUser();
+
+    Future<void> enviarFoto(String url, File file) async {
+      final request = http.MultipartRequest('POST', Uri.parse(url));
+      final fileMultipart = await http.MultipartFile.fromPath(
+          'photo', file.path,
+          contentType: MediaType('image', 'jpeg'));
+
+      request.files.add(fileMultipart);
+
+      await request.send();
+    }
+
+    Future<void> _pickImage() async {
+      final XFile? photo = await picker.pickImage(source: ImageSource.camera);
+      if (photo != null) {
+        File photofile = File(photo.path);
+        enviarFoto("${Routes.api}user/upload=${user?.id}", photofile);
+      }
+    }
+
+    Future<void> _checkPermissionAndPickImage() async {
+      if (await Permission.camera.request().isGranted) {
+        _pickImage();
+      }
+    }
+
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SizedBox(
         width: size.width,
@@ -96,9 +130,19 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
-                      child: Image.asset(
-                        'assets/images/profile_user.png',
-                        fit: BoxFit.fill,
+                      child: FutureBuilder(
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return const Text('Error loading image');
+                          } else {
+                            return Image.network(
+                                '${Routes.apache}${user?.photo}',
+                                fit: BoxFit.fill);
+                          }
+                        },
                       ),
                     ),
                   ),
@@ -120,10 +164,15 @@ class ProfileScreen extends StatelessWidget {
                             offset: const Offset(0, 3),
                           ),
                         ]),
-                    child: const Icon(
-                      Icons.photo_camera,
-                      size: 14,
-                      color: Colors.grey,
+                    child: IconButton(
+                      onPressed: () {
+                        _checkPermissionAndPickImage();
+                      },
+                      icon: const Icon(
+                        Icons.photo_camera,
+                        size: 14,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
                 ),
