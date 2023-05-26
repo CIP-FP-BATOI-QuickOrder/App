@@ -46,7 +46,7 @@ class ListPopularRestaurant extends StatelessWidget {
                 Navigator.pushNamed(
                   _,
                   Routes.restaurantDetailScreen,
-                  arguments: restaurants[index].id,
+                  arguments: restaurants[index],
                 ).then((value) => restaurantListProvider.refreshPopularData);
               },
               onLongPress: () => restaurantListProvider.refreshPopularData,

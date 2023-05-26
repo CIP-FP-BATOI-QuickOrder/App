@@ -1,12 +1,16 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_order/models/product.dart';
+import 'package:quick_order/models/restaurant_detail.dart';
 import 'package:quick_order/screens/home/home_screen.dart';
 import 'package:quick_order/screens/home/search_screen.dart';
 import 'package:quick_order/screens/home/widgets/restaurant_search_card_widget.dart';
 import 'package:quick_order/screens/profile/profile_screen.dart';
+import 'package:quick_order/screens/restaurant_detail/restaurant_detail_screen.dart';
 
 import 'package:quick_order/screens/splashscreen/splash_screen.dart';
 
+import '../models/restaurant.dart';
 import '../provider/user_provider.dart';
 import '../screens/home/favorite_screen.dart';
 import '../screens/login/forgotPassword/forgot_password.dart';
@@ -16,14 +20,15 @@ import '../screens/welcome/welcome_screen.dart';
 
 Map<String, WidgetBuilder> routesApp = {
   Routes.splashScreen: (BuildContext context) => SplashScreen(context: context),
-  Routes.welcomeScreen: (_) => WelcomeScreen(),
-  Routes.loginScreen: (_) => LoginScreen(),
-  Routes.registerScreen: (_) => RegisterScreen(),
-  Routes.forgotPasswordScreen: (_) => ForgotPasswordScreen(),
-  Routes.home: (_) => HomeScreen(),
+  Routes.welcomeScreen: (_) => const WelcomeScreen(),
+  Routes.loginScreen: (_) => const LoginScreen(),
+  Routes.registerScreen: (_) => const RegisterScreen(),
+  Routes.forgotPasswordScreen: (_) => const ForgotPasswordScreen(),
+  Routes.home: (_) => const HomeScreen(),
   Routes.profileScreen: (_) => ProfileScreen(context:  ModalRoute.of(_)!.subtreeContext),
   Routes.restaurantSearchScreen: (_) => SearchScreen(query:  ModalRoute.of(_)!.settings.arguments as String),
-  Routes.restaurantFavoriteScreen: (_) => FavoritesScreen()
+  Routes.restaurantFavoriteScreen: (_) => const FavoritesScreen(),
+  Routes.restaurantDetailScreen: (_) => RestaurantDetailScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant)
 };
 
 class Routes {

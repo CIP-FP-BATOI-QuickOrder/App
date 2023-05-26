@@ -110,7 +110,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   Navigator.pushNamed(
                     _,
                     Routes.restaurantDetailScreen,
-                    arguments: restaurants[index].id,
+                    arguments: restaurants[index],
                   );
                 },
                 borderRadius: BorderRadius.circular(16),
