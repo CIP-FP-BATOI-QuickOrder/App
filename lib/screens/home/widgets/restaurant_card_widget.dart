@@ -40,11 +40,6 @@ class RestaurantCardWidget extends StatefulWidget {
 class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
   bool _isFavorite = false;
 
-  User? getUser() {
-    final userProvider = Provider.of<UserProvider>(context);
-    return userProvider.user;
-  }
-
   Future<bool> addToFavorites() async {
     final response =
         await http.get(Uri.parse("${Routes.api}favorites/add/user=${widget.userId}/restaurant=${widget.id}"));

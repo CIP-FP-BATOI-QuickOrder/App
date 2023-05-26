@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_order/extensions/in_progress.dart';
 import 'package:quick_order/models/restaurant.dart';
 import 'package:quick_order/screens/restaurant_detail/widget/list_product_widget.dart';
+import 'package:http/http.dart' as http;
 
+import '../../models/user.dart';
 import '../../provider/Products_provider.dart';
 import '../../provider/response_state.dart';
+import '../../provider/user_provider.dart';
 import '../../routes/routes.dart';
 import '../welcome/widgets/signing_button.dart';
 
 class RestaurantDetailScreen extends StatefulWidget {
   final Restaurant restaurant;
-
+  final int userId;
   const RestaurantDetailScreen({
     super.key,
-    required this.restaurant,
+    required this.restaurant, required this.userId,
   });
 
   @override
@@ -21,10 +25,47 @@ class RestaurantDetailScreen extends StatefulWidget {
 }
 
 class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
-  bool isFavorite = false;
+  bool _isFavorite = false;
+
+
+
+  Future<bool> addToFavorites() async {
+    final response =
+    await http.get(Uri.parse("${Routes.api}favorites/add/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> removeFromFavorites() async {
+    final response = await http
+        .get(Uri.parse("${Routes.api}favorites/remove/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void isFavorite() async {
+    final response =
+    await http.get(Uri.parse("${Routes.api}favorites/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+    if (response.statusCode == 200) {
+      setState(() {
+        _isFavorite = true;
+      });
+    } else {
+      setState(() {
+        _isFavorite = false;
+      });
+    }
+  }
 
   @override
   void initState() {
+    isFavorite();
     super.initState();
   }
 
@@ -176,8 +217,29 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                             InkWell(
                               borderRadius: BorderRadius.circular(20),
                               splashColor: Colors.orange,
-                              onTap: () async {},
-                              child: isFavorite
+                              onTap: () async {
+                                if (!_isFavorite) {
+                                  addToFavorites();
+                                  context.showCustomFlashMessage(
+                                    status: 'success',
+                                    title: 'Success Add Favorite',
+                                    positionBottom: false,
+                                    message: 'Add ${widget.restaurant.name} to your Favorite',
+                                  );
+                                } else {
+                                  removeFromFavorites();
+                                  context.showCustomFlashMessage(
+                                    status: 'success',
+                                    title: 'Success remove Favorite',
+                                    positionBottom: false,
+                                    message: 'Add ${widget.restaurant.name} to your Favorite',
+                                  );
+                                }
+                                setState(() {
+                                  _isFavorite = !_isFavorite;
+                                });
+                              },
+                              child: _isFavorite
                                   ? Card(
                                       color: Colors.orange,
                                       shape: RoundedRectangleBorder(
