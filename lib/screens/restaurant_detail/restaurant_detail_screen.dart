@@ -5,12 +5,15 @@ import 'package:quick_order/screens/restaurant_detail/widget/list_product_widget
 
 import '../../provider/Products_provider.dart';
 import '../../provider/response_state.dart';
+import '../../routes/routes.dart';
 import '../welcome/widgets/signing_button.dart';
 
 class RestaurantDetailScreen extends StatefulWidget {
   final Restaurant restaurant;
+
   const RestaurantDetailScreen({
-    super.key, required this.restaurant,
+    super.key,
+    required this.restaurant,
   });
 
   @override
@@ -90,7 +93,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                   paddingVertical: 16.0,
                 ),
               ),
-
             ],
           ),
         ),
@@ -119,15 +121,19 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                       SizedBox(
                         width: size.width,
                         height: 200,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(14),
-                          child: FadeInImage.assetNetwork(
-                            placeholder: 'assets/images/foodhub.png',
-                            fit: BoxFit.cover,
-                            image: 'assets/images/foodhub.png',
-                            imageErrorBuilder: (context, error, stackTrace) =>
-                                Image.asset('assets/images/foodhub.png'),
-                          ),
+                        child: FutureBuilder(
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return const Text('Error loading image');
+                            } else {
+                              return Image.network(
+                                  '${Routes.apache}${provider.restaurant.photo}',
+                                  fit: BoxFit.fill);
+                            }
+                          },
                         ),
                       ),
                       Padding(
@@ -304,7 +310,10 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                     ],
                   ),
                   const SizedBox(height: 18.0),
-                  ListProduct(productProvider: provider, context: context,),
+                  ListProduct(
+                    productProvider: provider,
+                    context: context,
+                  ),
                 ],
               ),
             ),

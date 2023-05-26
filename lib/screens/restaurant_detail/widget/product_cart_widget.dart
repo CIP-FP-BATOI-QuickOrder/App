@@ -18,12 +18,10 @@ class ProductCartWidget extends StatefulWidget {
   });
 
   @override
-  State<ProductCartWidget> createState() =>
-      _ProductCartWidgetState();
+  State<ProductCartWidget> createState() => _ProductCartWidgetState();
 }
 
-class _ProductCartWidgetState
-    extends State<ProductCartWidget> {
+class _ProductCartWidgetState extends State<ProductCartWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -71,14 +69,12 @@ class _ProductCartWidgetState
                         Flexible(
                           child: Text(
                             widget.name,
-                            style: const TextStyle(fontSize: 14),
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
                             overflow: TextOverflow.ellipsis,
                           ),
-                        ),
-                        const SizedBox(width: 4),
-                        Image.asset(
-                          'assets/icons/verif.png',
-                          width: 13,
                         ),
                       ],
                     ),
@@ -87,46 +83,13 @@ class _ProductCartWidgetState
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Icon(
-                          Icons.location_on_rounded,
-                          color: Colors.orange,
-                          size: 15,
-                          shadows: [
-                            BoxShadow(
-                              blurRadius: 5,
-                              spreadRadius: 5,
-                              color: Colors.yellow,
-                              offset: Offset(0, 3),
-                            )
-                          ],
-                        ),
-                        const SizedBox(width: 4),
                         Flexible(
                           child: Text(
                             widget.description,
                             style: const TextStyle(fontSize: 14),
                             overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children:  const [
-                        Icon(
-                          Icons.star,
-                          color: Colors.yellow,
-                          size: 15,
-                          shadows: [
-                            BoxShadow(
-                              blurRadius: 10,
-                              spreadRadius: 5,
-                              color: Colors.yellow,
-                              offset: Offset(0, 3),
-                            )
-                          ],
                         ),
                       ],
                     ),
@@ -136,29 +99,20 @@ class _ProductCartWidgetState
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.asset(
-                            'assets/icons/delivery.png',
-                            width: 14,
-                          ),
-                          const SizedBox(width: 4.0),
                           Flexible(
                             child: Text(
                               "${widget.price} €",
                               style: const TextStyle(
                                 color: Colors.black,
-                                fontSize: 12,
+                                fontSize: 14,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),
-                          const SizedBox(width: 10.0),
-                          Image.asset(
-                            'assets/icons/timer.png',
-                            width: 10,
-                          ),
                         ],
                       ),
                     ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ),
