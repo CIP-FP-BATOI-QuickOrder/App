@@ -7,6 +7,7 @@ import 'package:quick_order/screens/home/search_screen.dart';
 import 'package:quick_order/screens/home/widgets/restaurant_search_card_widget.dart';
 import 'package:quick_order/screens/profile/profile_screen.dart';
 import 'package:quick_order/screens/restaurant_detail/restaurant_detail_screen.dart';
+import 'package:quick_order/screens/restaurant_detail/widget/add_to_cart_widget.dart';
 
 import 'package:quick_order/screens/splashscreen/splash_screen.dart';
 
@@ -28,7 +29,7 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.profileScreen: (_) => ProfileScreen(context:  ModalRoute.of(_)!.subtreeContext),
   Routes.restaurantSearchScreen: (_) => SearchScreen(query:  ModalRoute.of(_)!.settings.arguments as String),
   Routes.restaurantFavoriteScreen: (_) => const FavoritesScreen(),
-  Routes.restaurantDetailScreen: (_) => RestaurantDetailScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant, userId: Provider.of<UserProvider>(_).user!.id,)
+  Routes.restaurantDetailScreen: (_) => RestaurantDetailScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant, userId: Provider.of<UserProvider>(_).user!.id),
 };
 
 class Routes {
@@ -44,4 +45,5 @@ class Routes {
   static const restaurantSearchScreen = "restaurant_search_screen";
   static const restaurantDetailScreen = "restaurant_detail_screen";
   static const home = "home";
+  static const addToCart = "add_to_cart_widget";
 }

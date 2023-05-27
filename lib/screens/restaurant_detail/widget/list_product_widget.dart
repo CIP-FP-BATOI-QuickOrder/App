@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_order/provider/Products_provider.dart';
+import 'package:quick_order/screens/restaurant_detail/widget/add_to_cart_widget.dart';
 import 'package:quick_order/screens/restaurant_detail/widget/product_cart_widget.dart';
 
 import '../../../models/user.dart';
@@ -13,7 +14,8 @@ class ListProduct extends StatelessWidget {
 
   const ListProduct({
     super.key,
-    required this.productProvider, required this.context,
+    required this.productProvider,
+    required this.context,
   });
 
   final BuildContext? context;
@@ -28,7 +30,8 @@ class ListProduct extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
 
     if (productProvider.state == ResponseState.loading) {
-      return const Center(child: LinearProgressIndicator(
+      return const Center(
+          child: LinearProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
       ));
     } else if (productProvider.state == ResponseState.error) {
@@ -46,11 +49,13 @@ class ListProduct extends StatelessWidget {
         itemBuilder: (_, index) {
           return InkWell(
             onTap: () {
-              // Navigator.pushNamed(
-              //   _,
-              //   Routes.restaurantDetailScreen,
-              //   arguments: restaurants[index],
-              // );
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.transparent,
+                builder: (context) {
+                  return AddToCart(product: products[index],);
+                },
+              );
             },
             borderRadius: BorderRadius.circular(16),
             child: ProductCartWidget(
