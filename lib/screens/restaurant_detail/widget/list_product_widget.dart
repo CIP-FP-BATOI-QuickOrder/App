@@ -53,7 +53,7 @@ class ListProduct extends StatelessWidget {
                 context: context,
                 backgroundColor: Colors.transparent,
                 builder: (context) {
-                  return AddToCart(product: products[index],);
+                  return AddToCart(product: products[index], provider: productProvider,);
                 },
               );
             },

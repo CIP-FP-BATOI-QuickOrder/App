@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_order/extensions/in_progress.dart';
+import 'package:quick_order/models/order.dart';
+import 'package:quick_order/models/order_line.dart';
 import 'package:quick_order/models/restaurant.dart';
 import 'package:quick_order/screens/restaurant_detail/widget/list_product_widget.dart';
 import 'package:http/http.dart' as http;
@@ -15,9 +17,11 @@ import '../welcome/widgets/signing_button.dart';
 class RestaurantDetailScreen extends StatefulWidget {
   final Restaurant restaurant;
   final int userId;
+
   const RestaurantDetailScreen({
     super.key,
-    required this.restaurant, required this.userId,
+    required this.restaurant,
+    required this.userId,
   });
 
   @override
@@ -27,11 +31,9 @@ class RestaurantDetailScreen extends StatefulWidget {
 class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
   bool _isFavorite = false;
 
-
-
   Future<bool> addToFavorites() async {
-    final response =
-    await http.get(Uri.parse("${Routes.api}favorites/add/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+    final response = await http.get(Uri.parse(
+        "${Routes.api}favorites/add/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -40,8 +42,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
   }
 
   Future<bool> removeFromFavorites() async {
-    final response = await http
-        .get(Uri.parse("${Routes.api}favorites/remove/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+    final response = await http.get(Uri.parse(
+        "${Routes.api}favorites/remove/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -50,8 +52,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
   }
 
   void isFavorite() async {
-    final response =
-    await http.get(Uri.parse("${Routes.api}favorites/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+    final response = await http.get(Uri.parse(
+        "${Routes.api}favorites/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
     if (response.statusCode == 200) {
       setState(() {
         _isFavorite = true;
@@ -71,8 +73,22 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<OrderLine> lines = [];
+    Order order = Order(
+      id: 0,
+      userId: widget.userId,
+      restaurantId: widget.restaurant.id,
+      raiderId: 0,
+      price: 0,
+      deliveryTime: widget.restaurant.deliveryTime,
+      deliveryAddress: 0,
+      discount: 0,
+      lines: lines,
+    );
+
     return ChangeNotifierProvider<ProductsProvider>(
-      create: (context) => ProductsProvider(restaurant: widget.restaurant),
+      create: (context) =>
+          ProductsProvider(restaurant: widget.restaurant, order: order),
       child: Consumer<ProductsProvider>(
         builder: (context, productProvider, _) {
           if (productProvider.state == ResponseState.loading) {
@@ -143,8 +159,33 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
 
   Widget _detailRestaurant(BuildContext context, ProductsProvider provider) {
     Size size = MediaQuery.of(context).size;
-
     return Scaffold(
+      floatingActionButton: Stack(
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              // Acción al hacer clic en el botón del carrito
+            },
+            backgroundColor: Colors.orange,
+            child: const Icon(Icons.shopping_cart, color: Colors.white),
+          ),
+          Positioned(
+            right: 0,
+            child: CircleAvatar(
+              backgroundColor: Colors.red,
+              radius: 10,
+              child: Text(
+                "${provider.order.lines.length}",
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
@@ -171,8 +212,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                               return const Text('Error loading image');
                             } else {
                               return Image.network(
-                                  '${Routes.apache}${provider.restaurant.photo}',
-                                  fit: BoxFit.fill);
+                                '${Routes.apache}${provider.restaurant.photo}',
+                                fit: BoxFit.fill,
+                              );
                             }
                           },
                         ),
@@ -194,16 +236,17 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                               child: Container(
                                 padding: const EdgeInsets.all(8.0),
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 3),
-                                      ),
-                                    ]),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 8,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
+                                ),
                                 child: const Padding(
                                   padding: EdgeInsets.all(1.0),
                                   child: Icon(
@@ -224,7 +267,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                                     status: 'success',
                                     title: 'Success Add Favorite',
                                     positionBottom: false,
-                                    message: 'Add ${widget.restaurant.name} to your Favorite',
+                                    message:
+                                        'Add ${widget.restaurant.name} to your Favorite',
                                   );
                                 } else {
                                   removeFromFavorites();
@@ -232,7 +276,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                                     status: 'success',
                                     title: 'Success remove Favorite',
                                     positionBottom: false,
-                                    message: 'Add ${widget.restaurant.name} to your Favorite',
+                                    message:
+                                        'Add ${widget.restaurant.name} to your Favorite',
                                   );
                                 }
                                 setState(() {
@@ -294,7 +339,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                             spreadRadius: 5,
                             color: Colors.yellow,
                             offset: Offset(0, 3),
-                          )
+                          ),
                         ],
                       ),
                       const SizedBox(width: 6.0),
@@ -356,7 +401,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                             spreadRadius: 5,
                             color: Colors.yellow,
                             offset: Offset(0, 3),
-                          )
+                          ),
                         ],
                       ),
                       const SizedBox(width: 6.0),

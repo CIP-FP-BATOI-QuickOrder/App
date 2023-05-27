@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:quick_order/models/order_line.dart';
 import 'package:quick_order/screens/welcome/widgets/signing_button.dart';
+import '../../../models/order.dart';
 import '../../../models/product.dart';
+import '../../../provider/Products_provider.dart';
 import '../../../routes/routes.dart';
 
 class AddToCart extends StatefulWidget {
   final Product product;
-
-  const AddToCart({Key? key, required this.product}) : super(key: key);
+  final ProductsProvider provider;
+  const AddToCart({Key? key, required this.product, required this.provider}) : super(key: key);
 
   @override
   _AddToCartState createState() => _AddToCartState();
@@ -158,7 +161,19 @@ class _AddToCartState extends State<AddToCart> {
           ),
           const SizedBox(height: 15),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              OrderLine line = OrderLine(
+                  price: widget.product.price * qty,
+                  qty: qty,
+                  id: 0,
+                  orderId: 0,
+                  productId: widget.product.id,
+                  unitPrice: widget.product.price);
+              List<OrderLine> lines = widget.provider.order.lines;
+              lines.add(line);
+              widget.provider.setLines(lines);
+              Navigator.pop(context);
+            },
             style: ElevatedButton.styleFrom(
               side: const BorderSide(
                 width: 1.0,
@@ -177,30 +192,29 @@ class _AddToCartState extends State<AddToCart> {
               ),
             ),
             child: SizedBox(
-              width: double.infinity,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Add to cart",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "Add to cart",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                  Text(
-                    "${widget.product.price * qty} €",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.white,
+                    Text(
+                      "${widget.product.price * qty} €",
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
-              )
-            ),
+                  ],
+                )),
           ),
         ],
       ),

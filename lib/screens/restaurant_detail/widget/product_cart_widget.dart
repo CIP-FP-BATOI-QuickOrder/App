@@ -7,7 +7,7 @@ class ProductCartWidget extends StatefulWidget {
   final String name;
   final String photo;
   final String description;
-  final int price;
+  final double price;
 
   const ProductCartWidget({
     super.key,

@@ -3,7 +3,7 @@ class Product {
   String name;
   String photo;
   String description;
-  int price;
+  double price;
 
   Product({
     required this.photo,

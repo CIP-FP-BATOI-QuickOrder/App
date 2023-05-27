@@ -1,19 +1,21 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:quick_order/models/order.dart';
 import 'package:quick_order/provider/response_state.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/order_line.dart';
 import '../models/product.dart';
 import '../models/restaurant.dart';
 import '../routes/routes.dart';
 
 
 class ProductsProvider extends ChangeNotifier {
-  ProductsProvider({required this.restaurant}) {
+  ProductsProvider({required this.restaurant, required this.order }) {
     _getDetailRestaurant();
   }
-
+  Order order;
   List<Product>? _products;
   ResponseState? _responseState;
   late String _message = '';
@@ -28,6 +30,10 @@ class ProductsProvider extends ChangeNotifier {
     return;
   }
 
+  void setLines(List<OrderLine> lines){
+    order.lines = lines;
+    notifyListeners();
+  }
   Future<dynamic> _getDetailRestaurant() async {
     try {
       _responseState = ResponseState.loading;
