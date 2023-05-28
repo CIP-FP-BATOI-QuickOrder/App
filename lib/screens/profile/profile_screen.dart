@@ -185,14 +185,22 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            const Center(
-              child: Text(
-                'Edit Profile',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                  fontWeight: FontWeight.w600,
+            Center(
+              child: InkWell(
+                child: const Text(
+                  'Edit Profile',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.editProfile,
+                  );
+                },
               ),
             ),
             const SizedBox(height: 40),

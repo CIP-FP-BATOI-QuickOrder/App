@@ -25,39 +25,24 @@ class _CardProfileWidgetState extends State<CardProfileWidget> {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
-              children: const [
-                Icon(
-                  Icons.person_pin_rounded,
-                  color: Colors.grey,
-                  size: 18,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  'Data Profile',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.grey,
-                  ),
-                ),
-              ],
+          children: const [
+            Icon(
+              Icons.person_pin_rounded,
+              color: Colors.grey,
+              size: 18,
             ),
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    Routes.editProfile,
-                  );
-                },
-                icon: const Icon(
-                  Icons.edit,
-                  color: Colors.grey,
-                ))
+            SizedBox(width: 5),
+            Text(
+              'Data Profile',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.grey,
+              ),
+            ),
           ],
         ),
+        const SizedBox(height: 12),
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(

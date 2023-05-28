@@ -6,6 +6,7 @@ import 'package:quick_order/models/user.dart';
 import 'package:quick_order/screens/home/home_screen.dart';
 import 'package:quick_order/screens/home/search_screen.dart';
 import 'package:quick_order/screens/home/widgets/restaurant_search_card_widget.dart';
+import 'package:quick_order/screens/profile/addresses/address_screen.dart';
 import 'package:quick_order/screens/profile/edit_profile/edit_profile.dart';
 import 'package:quick_order/screens/profile/profile_screen.dart';
 import 'package:quick_order/screens/restaurant_detail/restaurant_detail_screen.dart';
@@ -33,6 +34,7 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.restaurantFavoriteScreen: (_) => const FavoritesScreen(),
   Routes.restaurantDetailScreen: (_) => RestaurantDetailScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant, userId: Provider.of<UserProvider>(_).user!.id),
   Routes.editProfile: (_) => EditProfileScreen(userProvider: Provider.of<UserProvider>(_)),
+  Routes.addresses: (_) => AddressScreen(),
 };
 
 class Routes {
@@ -50,4 +52,5 @@ class Routes {
   static const home = "home";
   static const addToCart = "add_to_cart_widget";
   static const editProfile = "edit_profile";
+  static const addresses = "address_screen";
 }

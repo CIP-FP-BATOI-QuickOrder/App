@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../main.dart';
+import '../../../routes/routes.dart';
 
-class CardSettingWidget extends StatelessWidget {
-  const CardSettingWidget({
-    super.key,
-  });
+class CardSettingWidget extends StatefulWidget {
+  const CardSettingWidget({Key? key}) : super(key: key);
 
+  @override
+  _CardSettingWidgetState createState() => _CardSettingWidgetState();
+}
+
+class _CardSettingWidgetState extends State<CardSettingWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -47,22 +51,27 @@ class CardSettingWidget extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const DataSetting(
-                icon: Icon(
-                  Icons.alarm,
+               DataSetting(
+                icon: const Icon(
+                  Icons.house,
                   size: 15,
                   color: Colors.white,
                 ),
-                title: 'Daily Reminder',
+                title: 'Shipping addresses', onTap: () {
+                 Navigator.pushNamed(
+                   context,
+                   Routes.addresses,
+                 );
+               },
               ),
               const SizedBox(height: 10),
-              DataSetting(
+               DataSetting(
                 icon: const Icon(
                   Icons.light_mode_sharp,
                   size: 15,
                   color: Colors.white,
                 ),
-                title: 'Dark Mode Theme',
+                title: 'Dark Mode Theme', onTap: () {  },
               ),
               const SizedBox(height: 10),
               Row(
@@ -137,50 +146,55 @@ class DataSetting extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.title,
+    required this.onTap,
   }) : super(key: key);
 
   final Icon icon;
   final String title;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-            color: Colors.orange,
-            boxShadow: const [
-              BoxShadow(
-                blurRadius: 5,
-                spreadRadius: 0,
-                color: Colors.orange,
-                offset: Offset(0, 3),
-              ),
-            ],
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.orange,
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 5,
+                  spreadRadius: 0,
+                  color: Colors.orange,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: icon,
           ),
-          child: icon,
-        ),
-        const SizedBox(width: 8),
-        Text(
-          title,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.grey,
+          const SizedBox(width: 8),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.grey,
+            ),
           ),
-        ),
-        const Spacer(),
-        const SizedBox(
-          width: 40,
-          height: 32,
-          child: FittedBox(
-            fit: BoxFit.fill,
+          const Spacer(),
+          const SizedBox(
+            width: 40,
+            height: 32,
+            child: FittedBox(
+              fit: BoxFit.fill,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
