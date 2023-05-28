@@ -82,155 +82,158 @@ class _RegisterContentState extends State<RegisterContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Stack(
-          children: [
-            Image.asset('assets/images/header.png'),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 37,
-                left: 27,
-              ),
-              child: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                enableFeedback: false,
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: const Offset(0, 3),
-                        ),
-                      ]),
-                  child: const Padding(
-                    padding: EdgeInsets.all(1.0),
-                    child: Icon(
-                      Icons.arrow_back_ios_new,
-                      size: 18,
-                      color: Colors.black54,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 15.0),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 26.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
+    return ListView(
+      children: [Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Stack(
             children: [
-              const Text(
-                'Sign Up',
-                style: TextStyle(
-                  fontSize: 34,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 38.0),
-              Form(
-                key: _formState,
-                child: RegisterFormWidget(
-                  nameController: _name,
-                  surnameController: _surname,
-                  emailController: _email,
-                  passwordController: _password,
-                  phoneController: _phone,
-                ),
-              ),
-              const SizedBox(height: 28.0),
+              Image.asset('assets/images/header.png'),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 42.0),
-                child: ButtonWidget(
-                  onPress: () => register(),
-                  title: 'SIGN UP',
-                  buttonColor: Colors.orange,
-                  titleColor: Colors.white,
-                  borderColor: Colors.orange,
-                  paddingHorizontal: 22.0,
-                  paddingVertical: 22.0,
+                padding: const EdgeInsets.only(
+                  top: 37,
+                  left: 27,
                 ),
-              ),
-              const SizedBox(height: 36.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Already have an account?',
-                    style: TextStyle(
-                      color: Colors.black26,
-                      fontSize: 16,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  enableFeedback: false,
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 8,
+                            offset: const Offset(0, 3),
+                          ),
+                        ]),
+                    child: const Padding(
+                      padding: EdgeInsets.all(1.0),
+                      child: Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 18,
+                        color: Colors.black54,
+                      ),
                     ),
                   ),
-                  const SizedBox(width: 8.0),
-                  InkWell(
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      Routes.loginScreen,
-                    ),
-                    child: const Text(
-                      'Sign In',
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 15.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 26.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Text(
+                  'Sign Up',
+                  style: TextStyle(
+                    fontSize: 34,
+                    color: Colors.black,
+                  ),
+                ),
+                const SizedBox(height: 38.0),
+                Form(
+                  key: _formState,
+                  child: RegisterFormWidget(
+                    nameController: _name,
+                    surnameController: _surname,
+                    emailController: _email,
+                    passwordController: _password,
+                    phoneController: _phone,
+                  ),
+                ),
+                const SizedBox(height: 28.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 42.0),
+                  child: ButtonWidget(
+                    onPress: () => register(),
+                    title: 'SIGN UP',
+                    buttonColor: Colors.orange,
+                    titleColor: Colors.white,
+                    borderColor: Colors.orange,
+                    paddingHorizontal: 22.0,
+                    paddingVertical: 22.0,
+                  ),
+                ),
+                const SizedBox(height: 36.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Already have an account?',
                       style: TextStyle(
-                        color: Colors.orange,
+                        color: Colors.black26,
                         fontSize: 16,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.orange,
-                        decorationThickness: 1.3,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 36.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                child: Row(
-                  children: const [
-                    Expanded(
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.grey,
+                    const SizedBox(width: 8.0),
+                    InkWell(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        Routes.loginScreen,
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 16.0,
-                        right: 16.0,
-                      ),
-                      child: Text(
-                        'sign up with',
-                        style: TextStyle(color: Colors.black26),
-                      ),
-                    ),
-                    Expanded(
-                      child: Divider(
-                        thickness: 1,
-                        color: Colors.grey,
+                      child: const Text(
+                        'Sign In',
+                        style: TextStyle(
+                          color: Colors.orange,
+                          fontSize: 16,
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.orange,
+                          decorationThickness: 1.3,
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 18.0),
-              const ButtonSigninWith(
-                positionButtom: false,
-              ),
-              const SizedBox(height: 18.0),
-            ],
+                const SizedBox(height: 36.0),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  child: Row(
+                    children: const [
+                      Expanded(
+                        child: Divider(
+                          thickness: 1,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 16.0,
+                          right: 16.0,
+                        ),
+                        child: Text(
+                          'sign up with',
+                          style: TextStyle(color: Colors.black26),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          thickness: 1,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 18.0),
+                const ButtonSigninWith(
+                  positionButtom: false,
+                ),
+                const SizedBox(height: 18.0),
+              ],
+            ),
           ),
-        ),
+        ],
+      )
       ],
     );
   }
