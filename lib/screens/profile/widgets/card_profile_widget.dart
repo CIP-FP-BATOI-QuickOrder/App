@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/user.dart';
 import '../../../provider/user_provider.dart';
+import '../../../routes/routes.dart';
 
 class CardProfileWidget extends StatefulWidget {
   CardProfileWidget({
@@ -14,7 +15,7 @@ class CardProfileWidget extends StatefulWidget {
 }
 
 class _CardProfileWidgetState extends State<CardProfileWidget> {
-  User? getUser(){
+  User? getUser() {
     final userProvider = Provider.of<UserProvider>(context!);
     return userProvider.user;
   }
@@ -24,24 +25,39 @@ class _CardProfileWidgetState extends State<CardProfileWidget> {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Icon(
-              Icons.person_pin_rounded,
-              color: Colors.grey,
-              size: 18,
+          children: [
+            Row(
+              children: const [
+                Icon(
+                  Icons.person_pin_rounded,
+                  color: Colors.grey,
+                  size: 18,
+                ),
+                SizedBox(width: 5),
+                Text(
+                  'Data Profile',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(width: 5),
-            Text(
-              'Data Profile',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.grey,
-              ),
-            ),
+            IconButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    Routes.editProfile,
+                  );
+                },
+                icon: const Icon(
+                  Icons.edit,
+                  color: Colors.grey,
+                ))
           ],
         ),
-        const SizedBox(height: 16),
         Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
@@ -57,15 +73,14 @@ class _CardProfileWidgetState extends State<CardProfileWidget> {
             ],
           ),
           child: Column(
-            children:  [
+            children: [
               DataProfile(
-                icon: const Icon(
-                  Icons.credit_card,
-                  size: 15,
-                  color: Colors.white,
-                ),
-                title: "${getUser()!.name} ${getUser()!.surname}"
-              ),
+                  icon: const Icon(
+                    Icons.credit_card,
+                    size: 15,
+                    color: Colors.white,
+                  ),
+                  title: "${getUser()!.name} ${getUser()!.surname}"),
               const SizedBox(height: 12),
               DataProfile(
                 icon: const Icon(
@@ -73,7 +88,7 @@ class _CardProfileWidgetState extends State<CardProfileWidget> {
                   size: 15,
                   color: Colors.white,
                 ),
-                title:  getUser()!.email,
+                title: getUser()!.email,
               ),
               const SizedBox(height: 12),
               DataProfile(
@@ -82,7 +97,7 @@ class _CardProfileWidgetState extends State<CardProfileWidget> {
                   size: 15,
                   color: Colors.white,
                 ),
-                title:  getUser()!.phone,
+                title: getUser()!.phone,
               ),
             ],
           ),

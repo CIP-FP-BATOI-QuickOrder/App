@@ -53,4 +53,19 @@ class User {
       paymentMethods: paymentMethodsList,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'surname': surname,
+      'email': email,
+      'password': password,
+      'phone': phone,
+      'credit': credit,
+      'photo': photo,
+      'addresses': addresses.map((address) => address.toJson()).toList(),
+      'paymentMethods': paymentMethods.map((paymentMethod) => paymentMethod.toJson()).toList(),
+    };
+  }
 }

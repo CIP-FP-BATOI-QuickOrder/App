@@ -20,4 +20,14 @@ class Address {
         cp: map['cp'],
         number: map['number']);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'number': number,
+      'name': name,
+      'city': city,
+      'cp': cp,
+    };
+  }
 }

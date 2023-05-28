@@ -2,9 +2,11 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_order/models/product.dart';
 import 'package:quick_order/models/restaurant_detail.dart';
+import 'package:quick_order/models/user.dart';
 import 'package:quick_order/screens/home/home_screen.dart';
 import 'package:quick_order/screens/home/search_screen.dart';
 import 'package:quick_order/screens/home/widgets/restaurant_search_card_widget.dart';
+import 'package:quick_order/screens/profile/edit_profile/edit_profile.dart';
 import 'package:quick_order/screens/profile/profile_screen.dart';
 import 'package:quick_order/screens/restaurant_detail/restaurant_detail_screen.dart';
 import 'package:quick_order/screens/restaurant_detail/widget/add_to_cart_widget.dart';
@@ -30,6 +32,7 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.restaurantSearchScreen: (_) => SearchScreen(query:  ModalRoute.of(_)!.settings.arguments as String),
   Routes.restaurantFavoriteScreen: (_) => const FavoritesScreen(),
   Routes.restaurantDetailScreen: (_) => RestaurantDetailScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant, userId: Provider.of<UserProvider>(_).user!.id),
+  Routes.editProfile: (_) => EditProfileScreen(userProvider: Provider.of<UserProvider>(_)),
 };
 
 class Routes {
@@ -46,4 +49,5 @@ class Routes {
   static const restaurantDetailScreen = "restaurant_detail_screen";
   static const home = "home";
   static const addToCart = "add_to_cart_widget";
+  static const editProfile = "edit_profile";
 }

@@ -18,4 +18,13 @@ class PaymentMethod {
       expirationDate: map['expirationDate'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'creditCart': creditCart,
+      'expirationDate': expirationDate,
+      'bank': bank,
+    };
+  }
 }
