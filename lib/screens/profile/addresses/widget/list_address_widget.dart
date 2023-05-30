@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_order/provider/user_provider.dart';
 import 'package:quick_order/screens/profile/addresses/widget/address_cart_widget.dart';
 
 class ListAddressWidget extends StatelessWidget {
-  final UserProvider userProvider;
-
   const ListAddressWidget({super.key, required this.userProvider});
+  final UserProvider userProvider;
 
   @override
   Widget build(BuildContext context) {

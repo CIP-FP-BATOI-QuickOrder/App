@@ -120,7 +120,13 @@ class _AddressCardWidgetState extends State<AddressCardWidget> {
                 child: Row(
                   children: [
                     IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            Routes.editAddress,
+                            arguments: widget.id
+                          );
+                        },
                         icon: const Icon(
                           Icons.edit_outlined,
                           size: 30,
