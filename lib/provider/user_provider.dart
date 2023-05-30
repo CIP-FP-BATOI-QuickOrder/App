@@ -8,4 +8,8 @@ class UserProvider with ChangeNotifier {
     this.user = user;
     notifyListeners();
   }
+  void deleteById(int id){
+    user!.addresses.removeWhere((element) => element.id == id);
+    notifyListeners();
+  }
 }

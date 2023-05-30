@@ -26,6 +26,8 @@ class ListAddressWidget extends StatelessWidget {
             },
             borderRadius: BorderRadius.circular(25),
             child: AddressCardWidget(
+              userProvider: userProvider,
+              id: userProvider.user!.addresses[index].id,
               name: userProvider.user!.addresses[index].name,
               city: userProvider.user!.addresses[index].city,
               cp: userProvider.user!.addresses[index].cp,
