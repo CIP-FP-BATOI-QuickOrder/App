@@ -215,6 +215,64 @@ class _EditAddressFormWidgetState extends State<EditAddressFormWidget> {
         Container(
           alignment: Alignment.centerLeft,
           child: const Text(
+            'City',
+            style: TextStyle(
+              color: Colors.grey,
+              fontSize: 16,
+            ),
+          ),
+        ),
+        const SizedBox(height: 10.0),
+        TextFormField(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'City can\'t be empty';
+            }
+            return null;
+          },
+          controller: widget.city,
+          decoration: InputDecoration(
+            hintText: "City",
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 0,
+              vertical: 20,
+            ),
+            prefix: const Padding(
+              padding: EdgeInsets.only(left: 16),
+            ),
+            hintStyle: const TextStyle(
+              color: Colors.grey,
+            ),
+            errorStyle: const TextStyle(
+              color: Colors.red,
+            ),
+            fillColor: Colors.white,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Colors.transparent,
+                width: 0,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Colors.grey,
+                width: 1,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(
+                color: Colors.orange,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 20.0),
+        Container(
+          alignment: Alignment.centerLeft,
+          child: const Text(
             'Name',
             style: TextStyle(
               color: Colors.grey,
