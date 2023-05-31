@@ -65,21 +65,17 @@ class _NewAddressContentState extends State<NewAddressContent> {
           address: _address.text,
           addressName: _addressName.text);
 
+      Map<String, dynamic> addressJson = newAddress.toJson();
+
       final response = await http.post(
-        Uri.parse("${Routes.api}address/user=${widget.userProvider.user!.id}/name=${_name.text}/city=${_city.text}/cp=${_cp.text}/number=${_number.text}/address=${_address.text}/name=${_addressName.text}"),
+        Uri.parse("${Routes.api}address/${widget.userProvider.user!.id}"),
+        body: jsonEncode(addressJson),
         headers: {'Content-Type': 'application/json'},
       );
 
       if (response.statusCode == 201) {
-        final response = await http.get(
-          Uri.parse("${Routes.api}user/id=${widget.userProvider.user!.id}"),
-          headers: {'Content-Type': 'application/json'},
-        );
-        if (response.statusCode == 200) {
-          final jsonData = jsonDecode(response.body);
-
-          widget.userProvider.setUser(User.fromJson(jsonData));
-        }
+        widget.userProvider.user!.addresses.add(newAddress);
+        widget.userProvider.notifyListeners();
         context.showCustomFlashMessage(
           status: "success",
           title: "Created",
