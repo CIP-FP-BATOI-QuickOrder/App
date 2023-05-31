@@ -17,13 +17,6 @@ class ListAddressWidget extends StatelessWidget {
         scrollDirection: Axis.vertical,
         itemBuilder: (_, index) {
           return InkWell(
-            onTap: () {
-              // Navigator.pushNamed(
-              //   _,
-              //   Routes.restaurantDetailScreen,
-              //   arguments: restaurants[index],
-              // ).then((value) => userProvider.refreshFavoritesData);
-            },
             borderRadius: BorderRadius.circular(25),
             child: AddressCardWidget(
               userProvider: userProvider,

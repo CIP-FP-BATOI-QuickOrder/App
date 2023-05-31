@@ -6,32 +6,28 @@ import 'package:quick_order/provider/user_provider.dart';
 
 import '../../../../routes/routes.dart';
 
-class AddressCardWidget extends StatefulWidget {
+class PaymentCardWidget extends StatefulWidget {
   final UserProvider userProvider;
   final int id;
-  final int number;
+  final String creditCart;
+  final String expirationDate;
   final String name;
-  final String city;
-  final int cp;
-  final String address;
-  final String addressName;
+  final String bank;
 
-  const AddressCardWidget(
+  const PaymentCardWidget(
       {super.key,
         required this.userProvider,
       required this.id,
       required this.name,
-      required this.city,
-      required this.number,
-      required this.cp,
-      required this.address,
-      required this.addressName});
+      required this.bank,
+      required this.expirationDate,
+      required this.creditCart});
 
   @override
-  State<AddressCardWidget> createState() => _AddressCardWidgetState();
+  State<PaymentCardWidget> createState() => _PaymentCardWidgetState();
 }
 
-class _AddressCardWidgetState extends State<AddressCardWidget> {
+class _PaymentCardWidgetState extends State<PaymentCardWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -59,7 +55,7 @@ class _AddressCardWidgetState extends State<AddressCardWidget> {
                         children: [
                           Flexible(
                             child: Text(
-                              widget.addressName,
+                              widget.bank,
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -76,7 +72,21 @@ class _AddressCardWidgetState extends State<AddressCardWidget> {
                         children: [
                           Flexible(
                             child: Text(
-                              "${widget.address}, ${widget.number}",
+                              widget.creditCart,
+                              style: const TextStyle(fontSize: 14),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              widget.expirationDate,
                               style: const TextStyle(fontSize: 14),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -97,20 +107,6 @@ class _AddressCardWidgetState extends State<AddressCardWidget> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              "${widget.city}, ${widget.cp}",
-                              style: const TextStyle(fontSize: 14),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
                   ),
                 ),
@@ -123,7 +119,7 @@ class _AddressCardWidgetState extends State<AddressCardWidget> {
                         onPressed: () {
                           Navigator.pushNamed(
                             context,
-                            Routes.editAddress,
+                            Routes.editPayment,
                             arguments: widget.id
                           );
                         },
@@ -140,9 +136,9 @@ class _AddressCardWidgetState extends State<AddressCardWidget> {
                           },
                         );
                         if (confirmDelete) {
-                         final response = await http.delete(Uri.parse("${Routes.api}address/${widget.id}"));
+                         final response = await http.delete(Uri.parse("${Routes.api}pay/${widget.id}"));
                          if (response.statusCode == 200){
-                           widget.userProvider.deleteAddressById(widget.id);
+                           widget.userProvider.deletePaymentById(widget.id);
                          }
                         }
                       },

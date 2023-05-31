@@ -3,12 +3,14 @@ class PaymentMethod {
   String creditCart;
   String expirationDate;
   String bank;
+  String name;
 
   PaymentMethod(
       {required this.id,
       required this.bank,
       required this.creditCart,
-      required this.expirationDate});
+      required this.expirationDate,
+      required this.name});
 
   factory PaymentMethod.fromJson(Map<String, dynamic> map) {
     return PaymentMethod(
@@ -16,6 +18,7 @@ class PaymentMethod {
       bank: map['bank'],
       creditCart: map['creditCart'],
       expirationDate: map['expirationDate'],
+      name: map['name']
     );
   }
 
@@ -25,6 +28,7 @@ class PaymentMethod {
       'creditCart': creditCart,
       'expirationDate': expirationDate,
       'bank': bank,
+      'name': name,
     };
   }
 }

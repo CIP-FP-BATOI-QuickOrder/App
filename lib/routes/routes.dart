@@ -8,7 +8,12 @@ import 'package:quick_order/screens/home/search_screen.dart';
 import 'package:quick_order/screens/home/widgets/restaurant_search_card_widget.dart';
 import 'package:quick_order/screens/profile/addresses/address_screen.dart';
 import 'package:quick_order/screens/profile/addresses/edit_address/edit_address.dart';
+import 'package:quick_order/screens/profile/addresses/widget/new_address.dart';
+import 'package:quick_order/screens/profile/addresses/widget/new_address_content.dart';
 import 'package:quick_order/screens/profile/edit_profile/edit_profile.dart';
+import 'package:quick_order/screens/profile/payment/edit_payment/edit_payment.dart';
+import 'package:quick_order/screens/profile/payment/payment_screen.dart';
+import 'package:quick_order/screens/profile/payment/widget/new_payment.dart';
 import 'package:quick_order/screens/profile/profile_screen.dart';
 import 'package:quick_order/screens/restaurant_detail/restaurant_detail_screen.dart';
 import 'package:quick_order/screens/restaurant_detail/widget/add_to_cart_widget.dart';
@@ -37,6 +42,10 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.editProfile: (_) => EditProfileScreen(userProvider: Provider.of<UserProvider>(_)),
   Routes.addresses: (_) => AddressScreen(),
   Routes.editAddress: (_) => EditAddressScreen(userProvider: Provider.of<UserProvider>(_), id: ModalRoute.of(_)!.settings.arguments as int),
+  Routes.newAddress: (_) => NewAddressScreen(userProvider: Provider.of<UserProvider>(_)),
+  Routes.payment: (_) => PaymentScreen(),
+  Routes.newPayment: (_) => NewPaymentScreen(userProvider: Provider.of<UserProvider>(_)),
+  Routes.editPayment: (_) => EditPaymentScreen(userProvider: Provider.of<UserProvider>(_), id: ModalRoute.of(_)!.settings.arguments as int),
 };
 
 class Routes {
@@ -56,4 +65,8 @@ class Routes {
   static const editProfile = "edit_profile";
   static const addresses = "address_screen";
   static const editAddress = "edit_address";
+  static const newAddress = "new_address_content";
+  static const payment = "payment_screen";
+  static const newPayment = "new_payment";
+  static const editPayment = "edit_payment";
 }

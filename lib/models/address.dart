@@ -35,7 +35,7 @@ class Address {
       'city': city,
       'cp': cp,
       'address': address,
-      'address_name': addressName,
+      'addressName': addressName,
     };
   }
 }

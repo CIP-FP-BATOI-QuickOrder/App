@@ -67,71 +67,16 @@ class _CardSettingWidgetState extends State<CardSettingWidget> {
               const SizedBox(height: 10),
                DataSetting(
                 icon: const Icon(
-                  Icons.light_mode_sharp,
+                  Icons.credit_card,
                   size: 15,
                   color: Colors.white,
                 ),
-                title: 'Dark Mode Theme', onTap: () {  },
-              ),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.orange,
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 5,
-                          spreadRadius: 0,
-                          color: Colors.orange,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: const Icon(
-                      Icons.notifications_active,
-                      size: 15,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  const Text(
-                    'Try Notification',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  const Spacer(),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 6),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.blue[700],
-                      boxShadow: const [
-                        BoxShadow(
-                          blurRadius: 5,
-                          spreadRadius: 0,
-                          color: Colors.orange,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: const Text(
-                      'Try',
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 5),
-                ],
+                title: 'Payment methods', onTap: () {
+                 Navigator.pushNamed(
+                   context,
+                   Routes.payment,
+                 );
+               },
               ),
             ],
           ),

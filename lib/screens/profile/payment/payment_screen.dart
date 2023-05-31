@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_order/routes/routes.dart';
 import 'package:quick_order/screens/profile/addresses/widget/list_address_widget.dart';
+import 'package:quick_order/screens/profile/payment/widget/list_payment_widget.dart';
 
 import '../../../provider/user_provider.dart';
 
-class AddressScreen extends StatefulWidget {
-  const AddressScreen({Key? key}) : super(key: key);
+class PaymentScreen extends StatefulWidget {
+  const PaymentScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddressScreen> createState() => _AddressScreenState();
+  State<PaymentScreen> createState() => _PaymentScreenState();
 }
 
-class _AddressScreenState extends State<AddressScreen> {
+class _PaymentScreenState extends State<PaymentScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -21,14 +22,14 @@ class _AddressScreenState extends State<AddressScreen> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, Routes.newAddress);
+          Navigator.pushNamed(context, Routes.newPayment);
         },
         backgroundColor: Colors.orange,
         child: const Icon(Icons.add, color: Colors.white),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       appBar: AppBar(
-        title: Text("Shipping Addresses"),
+          title: Text("Payment Methods"),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -42,7 +43,7 @@ class _AddressScreenState extends State<AddressScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ListAddressWidget(
+                  ListPaymentWidget(
                     userProvider: Provider.of<UserProvider>(context),
                   ),
                 ],
