@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_order/extensions/in_progress.dart';
 import 'package:quick_order/models/order.dart';
@@ -6,9 +7,11 @@ import 'package:quick_order/models/order_line.dart';
 import 'package:quick_order/models/restaurant.dart';
 import 'package:quick_order/screens/restaurant_detail/widget/list_product_widget.dart';
 import 'package:http/http.dart' as http;
+import 'package:sqflite/sqflite.dart';
 
 import '../../models/user.dart';
 import '../../provider/Products_provider.dart';
+import '../../provider/databaseHelper.dart';
 import '../../provider/response_state.dart';
 import '../../provider/user_provider.dart';
 import '../../routes/routes.dart';
@@ -30,6 +33,15 @@ class RestaurantDetailScreen extends StatefulWidget {
 
 class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
   bool _isFavorite = false;
+  late DatabaseHelper _databaseHelper;
+
+  @override
+  void initState() {
+    _databaseHelper = DatabaseHelper();
+    isFavorite();
+    _databaseHelper.addRestaurant(widget.restaurant);
+    super.initState();
+  }
 
   Future<bool> addToFavorites() async {
     final response = await http.get(Uri.parse(
@@ -64,13 +76,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
       });
     }
   }
-
-  @override
-  void initState() {
-    isFavorite();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     List<OrderLine> lines = [];

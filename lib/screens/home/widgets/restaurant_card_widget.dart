@@ -87,7 +87,7 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
     final isPortrait = orientation == Orientation.portrait;
     final cardWidth = isPortrait
         ? 280.0
-        : 320.0; // Ancho máximo del widget según la orientación
+        : 320.0;
 
     return Container(
       constraints: BoxConstraints(

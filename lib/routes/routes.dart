@@ -11,6 +11,7 @@ import 'package:quick_order/screens/profile/addresses/edit_address/edit_address.
 import 'package:quick_order/screens/profile/addresses/widget/new_address.dart';
 import 'package:quick_order/screens/profile/addresses/widget/new_address_content.dart';
 import 'package:quick_order/screens/profile/edit_profile/edit_profile.dart';
+import 'package:quick_order/screens/profile/history/search_screen.dart';
 import 'package:quick_order/screens/profile/payment/edit_payment/edit_payment.dart';
 import 'package:quick_order/screens/profile/payment/payment_screen.dart';
 import 'package:quick_order/screens/profile/payment/widget/new_payment.dart';
@@ -46,6 +47,7 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.payment: (_) => PaymentScreen(),
   Routes.newPayment: (_) => NewPaymentScreen(userProvider: Provider.of<UserProvider>(_)),
   Routes.editPayment: (_) => EditPaymentScreen(userProvider: Provider.of<UserProvider>(_), id: ModalRoute.of(_)!.settings.arguments as int),
+  Routes.history: (_) => HistoryScreen(),
 };
 
 class Routes {
@@ -69,4 +71,5 @@ class Routes {
   static const payment = "payment_screen";
   static const newPayment = "new_payment";
   static const editPayment = "edit_payment";
+  static const history = "history";
 }

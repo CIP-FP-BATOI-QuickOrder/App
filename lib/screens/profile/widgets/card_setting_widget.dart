@@ -78,6 +78,20 @@ class _CardSettingWidgetState extends State<CardSettingWidget> {
                  );
                },
               ),
+              const SizedBox(height: 10),
+              DataSetting(
+                icon: const Icon(
+                  Icons.history,
+                  size: 15,
+                  color: Colors.white,
+                ),
+                title: 'History', onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  Routes.history,
+                );
+              },
+              ),
             ],
           ),
         ),
