@@ -5,41 +5,36 @@ import 'package:quick_order/extensions/in_progress.dart';
 import 'package:quick_order/models/order.dart';
 import 'package:quick_order/models/order_line.dart';
 import 'package:quick_order/models/restaurant.dart';
+import 'package:quick_order/provider/review_provider.dart';
+import 'package:quick_order/screens/restaurant_detail/reviews/widgets/list_review.dart';
 import 'package:quick_order/screens/restaurant_detail/widget/list_product_widget.dart';
 import 'package:http/http.dart' as http;
-import 'package:sqflite/sqflite.dart';
 
-import '../../models/user.dart';
-import '../../provider/Products_provider.dart';
-import '../../provider/databaseHelper.dart';
-import '../../provider/response_state.dart';
-import '../../provider/user_provider.dart';
-import '../../routes/routes.dart';
-import '../welcome/widgets/signing_button.dart';
+import '../../../provider/response_state.dart';
+import '../../../routes/routes.dart';
+import '../../welcome/widgets/signing_button.dart';
 
-class RestaurantDetailScreen extends StatefulWidget {
+
+class ReviewsScreen extends StatefulWidget {
   final Restaurant restaurant;
   final int userId;
 
-  const RestaurantDetailScreen({
+  const ReviewsScreen({
     super.key,
     required this.restaurant,
     required this.userId,
   });
 
   @override
-  State<RestaurantDetailScreen> createState() => _RestaurantDetailScreenState();
+  State<ReviewsScreen> createState() => _ReviewsScreenState();
 }
 
-class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
+class _ReviewsScreenState extends State<ReviewsScreen> {
   bool _isFavorite = false;
-  late DatabaseHelper _databaseHelper;
 
   @override
   void initState() {
-    _databaseHelper = DatabaseHelper();
     isFavorite();
-    _databaseHelper.addRestaurant(widget.restaurant);
     super.initState();
   }
 
@@ -91,10 +86,10 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
       lines: lines,
     );
 
-    return ChangeNotifierProvider<ProductsProvider>(
+    return ChangeNotifierProvider<ReviewProvider>(
       create: (context) =>
-          ProductsProvider(restaurant: widget.restaurant, order: order),
-      child: Consumer<ProductsProvider>(
+          ReviewProvider(restaurant: widget.restaurant),
+      child: Consumer<ReviewProvider>(
         builder: (context, productProvider, _) {
           if (productProvider.state == ResponseState.loading) {
             return const Scaffold(
@@ -162,35 +157,9 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     );
   }
 
-  Widget _detailRestaurant(BuildContext context, ProductsProvider provider) {
+  Widget _detailRestaurant(BuildContext context, ReviewProvider provider) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: Stack(
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              // Acción al hacer clic en el botón del carrito
-            },
-            backgroundColor: Colors.orange,
-            child: const Icon(Icons.shopping_cart, color: Colors.white),
-          ),
-          Positioned(
-            right: 0,
-            child: CircleAvatar(
-              backgroundColor: Colors.red,
-              radius: 10,
-              child: Text(
-                "${provider.order.lines.length}",
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
@@ -371,11 +340,11 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                         padding: const EdgeInsets.only(top: 2.0),
                         child: InkWell(
                           onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.reviews,
-                              arguments: widget.restaurant,
-                            );
+                            // Navigator.pushNamed(
+                            //   context,
+                            //   Routes.restaurantReviewScreen,
+                            //   arguments: restaurant.id,
+                            // ).then((res) => checkRestaurantFavorite());
                           },
                           child: const Text(
                             'See Review',
@@ -422,9 +391,19 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                     ],
                   ),
                   const SizedBox(height: 18.0),
-                  ListProduct(
-                    productProvider: provider,
-                    context: context,
+                  ListView.builder(
+                    itemCount: provider.reviews!.length,
+                    scrollDirection: Axis.vertical,
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (_, index) {
+                      return ReviewCardWidget(
+                        name: provider.reviews![index].user.name,
+                        review: provider.reviews![index].content,
+                        date: '${provider.reviews![index].createdAt.day}-${provider.reviews![index].createdAt.month}-${provider.reviews![index].createdAt.year}',
+                        photo: provider.reviews![index].user.photo,
+                      );
+                    },
                   ),
                 ],
               ),
