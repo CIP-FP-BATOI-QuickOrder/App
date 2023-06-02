@@ -18,6 +18,7 @@ import 'package:quick_order/screens/profile/payment/widget/new_payment.dart';
 import 'package:quick_order/screens/profile/profile_screen.dart';
 import 'package:quick_order/screens/restaurant_detail/restaurant_detail_screen.dart';
 import 'package:quick_order/screens/restaurant_detail/reviews/restaurant_reviews_screen.dart';
+import 'package:quick_order/screens/restaurant_detail/reviews/widgets/new_review_widget.dart';
 import 'package:quick_order/screens/restaurant_detail/widget/add_to_cart_widget.dart';
 
 import 'package:quick_order/screens/splashscreen/splash_screen.dart';
@@ -49,7 +50,7 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.newPayment: (_) => NewPaymentScreen(userProvider: Provider.of<UserProvider>(_)),
   Routes.editPayment: (_) => EditPaymentScreen(userProvider: Provider.of<UserProvider>(_), id: ModalRoute.of(_)!.settings.arguments as int),
   Routes.history: (_) => HistoryScreen(),
-  Routes.reviews: (_) => ReviewsScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant, userId: Provider.of<UserProvider>(_).user!.id)
+  Routes.reviews: (_) => ReviewsScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant, userId: Provider.of<UserProvider>(_).user!.id),
 };
 
 class Routes {

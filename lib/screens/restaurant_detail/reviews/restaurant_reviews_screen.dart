@@ -7,13 +7,13 @@ import 'package:quick_order/models/order_line.dart';
 import 'package:quick_order/models/restaurant.dart';
 import 'package:quick_order/provider/review_provider.dart';
 import 'package:quick_order/screens/restaurant_detail/reviews/widgets/list_review.dart';
+import 'package:quick_order/screens/restaurant_detail/reviews/widgets/new_review_widget.dart';
 import 'package:quick_order/screens/restaurant_detail/widget/list_product_widget.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../provider/response_state.dart';
 import '../../../routes/routes.dart';
 import '../../welcome/widgets/signing_button.dart';
-
 
 class ReviewsScreen extends StatefulWidget {
   final Restaurant restaurant;
@@ -71,6 +71,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     List<OrderLine> lines = [];
@@ -87,8 +88,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
     );
 
     return ChangeNotifierProvider<ReviewProvider>(
-      create: (context) =>
-          ReviewProvider(restaurant: widget.restaurant),
+      create: (context) => ReviewProvider(restaurant: widget.restaurant),
       child: Consumer<ReviewProvider>(
         builder: (context, productProvider, _) {
           if (productProvider.state == ResponseState.loading) {
@@ -160,6 +160,20 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
   Widget _detailRestaurant(BuildContext context, ReviewProvider provider) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            backgroundColor: Colors.transparent,
+            builder: (context) {
+              return NewReview(userId: widget.userId, restaurantId: widget.restaurant.id,);
+            },
+          );
+        },
+        backgroundColor: Colors.orange,
+        child: const Icon(Icons.message, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: SafeArea(
         child: SingleChildScrollView(
           child: SizedBox(
@@ -325,36 +339,13 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                         ),
                       ),
                       const SizedBox(width: 6.0),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(top: 2.0),
-                      //   child: Text(
-                      //     '(${provider.customerReviews!.length}+)',
-                      //     style: const TextStyle(
-                      //       fontSize: 15,
-                      //       color: Colors.grey,
-                      //     ),
-                      //   ),
-                      // ),
-                      // const SizedBox(width: 8.0),
                       Padding(
                         padding: const EdgeInsets.only(top: 2.0),
-                        child: InkWell(
-                          onTap: () {
-                            // Navigator.pushNamed(
-                            //   context,
-                            //   Routes.restaurantReviewScreen,
-                            //   arguments: restaurant.id,
-                            // ).then((res) => checkRestaurantFavorite());
-                          },
-                          child: const Text(
-                            'See Review',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.orange,
-                              decoration: TextDecoration.underline,
-                              decorationColor: Colors.orange,
-                              decorationThickness: 1.3,
-                            ),
+                        child: Text(
+                          '(${provider.reviews!.length} ${provider.reviews!.length > 1 ? 'Reviews' : 'review'})',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey,
                           ),
                         ),
                       ),
@@ -400,7 +391,8 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
                       return ReviewCardWidget(
                         name: provider.reviews![index].user.name,
                         review: provider.reviews![index].content,
-                        date: '${provider.reviews![index].createdAt.day}-${provider.reviews![index].createdAt.month}-${provider.reviews![index].createdAt.year}',
+                        date:
+                            '${provider.reviews![index].createdAt.day}-${provider.reviews![index].createdAt.month}-${provider.reviews![index].createdAt.year}',
                         photo: provider.reviews![index].user.photo,
                       );
                     },
