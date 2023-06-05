@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -42,7 +44,7 @@ class DatabaseHelper {
   direction varchar(100),
   delivery_time int,
   delivery_price int,
-  rating DECIMAL(3,1)
+  rating REAL
  );
     ''');
   }
