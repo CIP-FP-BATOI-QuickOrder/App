@@ -11,18 +11,19 @@ import 'package:quick_order/screens/restaurant_detail/reviews/widgets/new_review
 import 'package:quick_order/screens/restaurant_detail/widget/list_product_widget.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../models/user.dart';
 import '../../../provider/response_state.dart';
 import '../../../routes/routes.dart';
 import '../../welcome/widgets/signing_button.dart';
 
 class ReviewsScreen extends StatefulWidget {
   final Restaurant restaurant;
-  final int userId;
+  final User user;
 
   const ReviewsScreen({
     super.key,
     required this.restaurant,
-    required this.userId,
+    required this.user,
   });
 
   @override
@@ -40,7 +41,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
 
   Future<bool> addToFavorites() async {
     final response = await http.get(Uri.parse(
-        "${Routes.api}favorites/add/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+        "${Routes.api}favorites/add/user=${widget.user.id}/restaurant=${widget.restaurant.id}"));
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -50,7 +51,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
 
   Future<bool> removeFromFavorites() async {
     final response = await http.get(Uri.parse(
-        "${Routes.api}favorites/remove/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+        "${Routes.api}favorites/remove/user=${widget.user.id}/restaurant=${widget.restaurant.id}"));
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -60,7 +61,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
 
   void isFavorite() async {
     final response = await http.get(Uri.parse(
-        "${Routes.api}favorites/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+        "${Routes.api}favorites/user=${widget.user.id}/restaurant=${widget.restaurant.id}"));
     if (response.statusCode == 200) {
       setState(() {
         _isFavorite = true;
@@ -77,7 +78,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
     List<OrderLine> lines = [];
     Order order = Order(
       id: 0,
-      userId: widget.userId,
+      userId: widget.user.id,
       restaurantId: widget.restaurant.id,
       raiderId: 0,
       price: 0,
@@ -88,7 +89,7 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
     );
 
     return ChangeNotifierProvider<ReviewProvider>(
-      create: (context) => ReviewProvider(restaurant: widget.restaurant),
+      create: (context) => ReviewProvider(restaurant: widget.restaurant, user: widget.user),
       child: Consumer<ReviewProvider>(
         builder: (context, productProvider, _) {
           if (productProvider.state == ResponseState.loading) {
@@ -165,10 +166,14 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
           showModalBottomSheet(
             context: context,
             backgroundColor: Colors.transparent,
+            isScrollControlled: false,
             builder: (context) {
-              return NewReview(userId: widget.userId, restaurantId: widget.restaurant.id,);
+              return SingleChildScrollView(
+                child: NewReview(reviewProvider: provider)
+              );
             },
           );
+
         },
         backgroundColor: Colors.orange,
         child: const Icon(Icons.message, color: Colors.white),

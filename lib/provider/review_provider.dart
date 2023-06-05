@@ -1,19 +1,23 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quick_order/models/review.dart';
 import 'package:quick_order/provider/response_state.dart';
 import 'package:http/http.dart' as http;
+import 'package:quick_order/provider/user_provider.dart';
 
 import '../models/restaurant.dart';
+import '../models/user.dart';
 import '../routes/routes.dart';
 
 
 class ReviewProvider extends ChangeNotifier {
-  ReviewProvider({required this.restaurant}) {
+  ReviewProvider({required this.restaurant, required this.user}) {
     _getReviews();
   }
 
+  User user;
   List<Review>? _reviews;
   ResponseState? _responseState;
   late String _message = '';
@@ -58,4 +62,33 @@ class ReviewProvider extends ChangeNotifier {
       return _message = 'Failed to get Data, Please check your connectivity';
     }
   }
+
+  Future<bool> sendReview(String content) async {
+    Review review = Review(
+      restaurant: restaurant,
+      user: user,
+      id: 0,
+      content: content,
+      createdAt: DateTime.now(),
+    );
+
+    Map<String, dynamic> reviewJson = review.toJson();
+
+    final response = await http.post(
+      Uri.parse(
+          "${Routes.api}review/user=${user.id}/restaurant=${restaurant.id}"),
+      body: jsonEncode(reviewJson),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 201) {
+      int reviewId = jsonDecode(response.body)['id'];
+      review.id = reviewId;
+      reviews?.add(review);
+      notifyListeners();
+      return true;
+    }
+    return false;
+  }
+
 }

@@ -27,4 +27,11 @@ class Review {
       restaurant: restaurant
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'content': content,
+    };
+  }
 }
