@@ -63,7 +63,7 @@ class ReviewProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> sendReview(String content) async {
+  Future<bool> sendReview(String content, double value) async {
     Review review = Review(
       restaurant: restaurant,
       user: user,
@@ -82,10 +82,16 @@ class ReviewProvider extends ChangeNotifier {
     );
 
     if (response.statusCode == 201) {
-      int reviewId = jsonDecode(response.body)['id'];
-      review.id = reviewId;
       reviews?.add(review);
       notifyListeners();
+
+
+      final response2 = await http.post(
+        Uri.parse(
+            "${Routes.api}rating/user=${user.id}/restaurant=${restaurant.id}/content=$value"),
+        headers: {'Content-Type': 'application/json'},
+      );
+
       return true;
     }
     return false;

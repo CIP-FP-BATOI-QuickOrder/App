@@ -1,17 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:quick_order/models/order_line.dart';
-import 'package:quick_order/models/review.dart';
 import 'package:quick_order/provider/review_provider.dart';
-import 'package:quick_order/screens/welcome/widgets/signing_button.dart';
-import 'package:http/http.dart' as http;
-
-import '../../../../models/restaurant.dart';
-import '../../../../models/user.dart';
-import '../../../../provider/user_provider.dart';
-import '../../../../routes/routes.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class NewReview extends StatefulWidget {
   final ReviewProvider reviewProvider;
@@ -24,9 +15,10 @@ class NewReview extends StatefulWidget {
 
 class _NewReviewState extends State<NewReview> {
   int qty = 1;
-  double containerHeight = 200;
+  double containerHeight = 250;
   bool isKeyboardVisible = false;
   late FocusNode _focusNode;
+  TextEditingController reviewController = TextEditingController();
 
   @override
   void initState() {
@@ -46,16 +38,16 @@ class _NewReviewState extends State<NewReview> {
     setState(() {
       isKeyboardVisible = _focusNode.hasFocus;
       if (isKeyboardVisible) {
-        containerHeight = 500;
+        containerHeight = 550;
       } else {
-        containerHeight = 200;
+        containerHeight = 250;
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController reviewController = TextEditingController();
+    double currentRating = 3;
     return Container(
       height: containerHeight,
       decoration: const BoxDecoration(
@@ -78,6 +70,22 @@ class _NewReviewState extends State<NewReview> {
               color: Colors.orange,
             ),
           ),
+          RatingBar.builder(
+            initialRating: 3,
+            minRating: 1,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+            itemBuilder: (context, _) => Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            onRatingUpdate: (rating) {
+              currentRating = rating;
+            },
+          ),
+          const SizedBox(height: 5.0),
           Column(
             children: [
               TextFormField(
@@ -132,7 +140,7 @@ class _NewReviewState extends State<NewReview> {
           const SizedBox(height: 15),
           ElevatedButton(
             onPressed: () async {
-              widget.reviewProvider.sendReview(reviewController.text);
+              widget.reviewProvider.sendReview(reviewController.text, currentRating);
               Navigator.pop(context);
               Navigator.pop(context);
             },
