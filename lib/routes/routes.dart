@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:quick_order/models/product.dart';
 import 'package:quick_order/models/restaurant_detail.dart';
 import 'package:quick_order/models/user.dart';
+import 'package:quick_order/provider/products_provider.dart';
+import 'package:quick_order/screens/checkout/checkout_screen.dart';
 import 'package:quick_order/screens/home/home_screen.dart';
 import 'package:quick_order/screens/home/search_screen.dart';
 import 'package:quick_order/screens/home/widgets/restaurant_search_card_widget.dart';
@@ -41,7 +43,7 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.profileScreen: (_) => ProfileScreen(context:  ModalRoute.of(_)!.subtreeContext),
   Routes.restaurantSearchScreen: (_) => SearchScreen(query:  ModalRoute.of(_)!.settings.arguments as String),
   Routes.restaurantFavoriteScreen: (_) => const FavoritesScreen(),
-  Routes.restaurantDetailScreen: (_) => RestaurantDetailScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant, userId: Provider.of<UserProvider>(_).user!.id),
+  Routes.restaurantDetailScreen: (_) => RestaurantDetailScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant, user: Provider.of<UserProvider>(_).user!),
   Routes.editProfile: (_) => EditProfileScreen(userProvider: Provider.of<UserProvider>(_)),
   Routes.addresses: (_) => AddressScreen(),
   Routes.editAddress: (_) => EditAddressScreen(userProvider: Provider.of<UserProvider>(_), id: ModalRoute.of(_)!.settings.arguments as int),
@@ -51,11 +53,12 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.editPayment: (_) => EditPaymentScreen(userProvider: Provider.of<UserProvider>(_), id: ModalRoute.of(_)!.settings.arguments as int),
   Routes.history: (_) => HistoryScreen(),
   Routes.reviews: (_) => ReviewsScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant, user: Provider.of<UserProvider>(_).user!),
+  Routes.checkout: (_) => CheckoutScreen(provider: ModalRoute.of(_)!.settings.arguments as ProductsProvider),
 };
 
 class Routes {
-  static const api = "http://192.168.1.24:8086/";
-  static const apache = "http://192.168.1.24/";
+  static const api = "http://192.168.200.125:8086/";
+  static const apache = "http://192.168.200.125/";
   static const splashScreen = "splash_screen";
   static const loginScreen = "login_screen";
   static const welcomeScreen = "welcome_screen";
@@ -76,4 +79,5 @@ class Routes {
   static const editPayment = "edit_payment";
   static const history = "history";
   static const reviews = "reviews";
+  static const checkout = "checkout";
 }

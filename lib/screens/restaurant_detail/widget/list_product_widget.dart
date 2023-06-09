@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_order/provider/Products_provider.dart';
+import 'package:quick_order/provider/products_provider.dart';
 import 'package:quick_order/screens/restaurant_detail/widget/add_to_cart_widget.dart';
 import 'package:quick_order/screens/restaurant_detail/widget/product_cart_widget.dart';
 

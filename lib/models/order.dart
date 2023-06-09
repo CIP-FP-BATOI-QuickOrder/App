@@ -1,10 +1,12 @@
+import 'package:quick_order/models/restaurant.dart';
+import 'package:quick_order/models/user.dart';
+
 import 'order_line.dart';
 
 class Order {
   int id;
-  int userId;
-  int restaurantId;
-  int raiderId;
+  User user;
+  Restaurant restaurant;
   double price;
   int deliveryAddress;
   int deliveryTime;
@@ -13,9 +15,8 @@ class Order {
 
   Order(
       {required this.id,
-      required this.userId,
-      required this.restaurantId,
-      required this.raiderId,
+      required this.user,
+      required this.restaurant,
       required this.price,
       required this.deliveryTime,
       required this.deliveryAddress,

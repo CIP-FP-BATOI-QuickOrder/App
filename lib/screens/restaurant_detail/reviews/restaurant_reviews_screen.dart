@@ -78,9 +78,8 @@ class _ReviewsScreenState extends State<ReviewsScreen> {
     List<OrderLine> lines = [];
     Order order = Order(
       id: 0,
-      userId: widget.user.id,
-      restaurantId: widget.restaurant.id,
-      raiderId: 0,
+      user: widget.user,
+      restaurant: widget.restaurant,
       price: 0,
       deliveryTime: widget.restaurant.deliveryTime,
       deliveryAddress: 0,

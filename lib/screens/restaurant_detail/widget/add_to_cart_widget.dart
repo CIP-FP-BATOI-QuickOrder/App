@@ -3,13 +3,15 @@ import 'package:quick_order/models/order_line.dart';
 import 'package:quick_order/screens/welcome/widgets/signing_button.dart';
 import '../../../models/order.dart';
 import '../../../models/product.dart';
-import '../../../provider/Products_provider.dart';
+import '../../../provider/products_provider.dart';
 import '../../../routes/routes.dart';
 
 class AddToCart extends StatefulWidget {
   final Product product;
   final ProductsProvider provider;
-  const AddToCart({Key? key, required this.product, required this.provider}) : super(key: key);
+
+  const AddToCart({Key? key, required this.product, required this.provider})
+      : super(key: key);
 
   @override
   _AddToCartState createState() => _AddToCartState();
@@ -166,8 +168,7 @@ class _AddToCartState extends State<AddToCart> {
                   price: widget.product.price * qty,
                   qty: qty,
                   id: 0,
-                  orderId: 0,
-                  productId: widget.product.id,
+                  product: widget.product,
                   unitPrice: widget.product.price);
               List<OrderLine> lines = widget.provider.order.lines;
               lines.add(line);

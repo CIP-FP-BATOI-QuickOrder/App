@@ -1,7 +1,8 @@
+import 'package:quick_order/models/product.dart';
+
 class OrderLine {
   int id;
-  int orderId;
-  int productId;
+  Product product;
   int qty;
   double price;
   double unitPrice;
@@ -10,7 +11,6 @@ class OrderLine {
       {required this.price,
       required this.qty,
       required this.id,
-      required this.orderId,
-      required this.productId,
+      required this.product,
       required this.unitPrice});
 }

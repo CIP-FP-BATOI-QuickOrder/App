@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:sqflite/sqflite.dart';
 
 import '../../models/user.dart';
-import '../../provider/Products_provider.dart';
+import '../../provider/products_provider.dart';
 import '../../provider/databaseHelper.dart';
 import '../../provider/response_state.dart';
 import '../../provider/user_provider.dart';
@@ -19,12 +19,12 @@ import '../welcome/widgets/signing_button.dart';
 
 class RestaurantDetailScreen extends StatefulWidget {
   final Restaurant restaurant;
-  final int userId;
+  final User user;
 
   const RestaurantDetailScreen({
     super.key,
     required this.restaurant,
-    required this.userId,
+    required this.user,
   });
 
   @override
@@ -45,7 +45,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
 
   Future<bool> addToFavorites() async {
     final response = await http.get(Uri.parse(
-        "${Routes.api}favorites/add/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+        "${Routes.api}favorites/add/user=${widget.user.id}/restaurant=${widget.restaurant.id}"));
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -55,7 +55,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
 
   Future<bool> removeFromFavorites() async {
     final response = await http.get(Uri.parse(
-        "${Routes.api}favorites/remove/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+        "${Routes.api}favorites/remove/user=${widget.user.id}/restaurant=${widget.restaurant.id}"));
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -65,7 +65,7 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
 
   void isFavorite() async {
     final response = await http.get(Uri.parse(
-        "${Routes.api}favorites/user=${widget.userId}/restaurant=${widget.restaurant.id}"));
+        "${Routes.api}favorites/user=${widget.user.id}/restaurant=${widget.restaurant.id}"));
     if (response.statusCode == 200) {
       setState(() {
         _isFavorite = true;
@@ -81,9 +81,8 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
     List<OrderLine> lines = [];
     Order order = Order(
       id: 0,
-      userId: widget.userId,
-      restaurantId: widget.restaurant.id,
-      raiderId: 0,
+      user: widget.user,
+      restaurant: widget.restaurant,
       price: 0,
       deliveryTime: widget.restaurant.deliveryTime,
       deliveryAddress: 0,
@@ -169,7 +168,13 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
         children: [
           FloatingActionButton(
             onPressed: () {
-              // Acción al hacer clic en el botón del carrito
+              if (provider.order.lines.isNotEmpty){
+                Navigator.pushNamed(
+                    context,
+                    Routes.checkout,
+                    arguments: provider
+                );
+              }
             },
             backgroundColor: Colors.orange,
             child: const Icon(Icons.shopping_cart, color: Colors.white),
@@ -231,10 +236,6 @@ class _RestaurantDetailScreenState extends State<RestaurantDetailScreen> {
                           children: [
                             InkWell(
                               onTap: () {
-                                // Navigator.pushNamedAndRemoveUntil(
-                                //     context,
-                                //     Routes.homeScreen,
-                                //     (Route<dynamic> route) => false);
                                 Navigator.pop(context, true);
                               },
                               enableFeedback: false,
