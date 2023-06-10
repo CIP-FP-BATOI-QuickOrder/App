@@ -64,4 +64,12 @@ class ProductsProvider extends ChangeNotifier {
       return _message = 'Failed to get Data, Please check your connectivity';
     }
   }
+
+  void updateOrderLine(OrderLine updatedLine) {
+    int index = order.lines.indexOf(updatedLine);
+    if (index != -1) {
+      order.lines[index] = updatedLine;
+      notifyListeners();
+    }
+  }
 }

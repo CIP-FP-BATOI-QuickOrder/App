@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:quick_order/models/order_line.dart';
+import 'package:quick_order/screens/checkout/checkout_screen.dart';
+import 'package:quick_order/screens/checkout/widgets/list_order_widget.dart';
 import 'package:quick_order/screens/welcome/widgets/signing_button.dart';
 import '../../../models/order.dart';
 import '../../../models/product.dart';
 import '../../../provider/products_provider.dart';
 import '../../../routes/routes.dart';
 
-class AddToCart extends StatefulWidget {
-  final Product product;
-  final ProductsProvider provider;
+class ModifyQty extends StatefulWidget {
+  ProductsProvider provider;
+  int index;
 
-  const AddToCart({Key? key, required this.product, required this.provider})
+  ModifyQty({Key? key, required this.provider, required this.index})
       : super(key: key);
 
   @override
-  _AddToCartState createState() => _AddToCartState();
+  _ModifyQtyState createState() => _ModifyQtyState();
 }
 
-class _AddToCartState extends State<AddToCart> {
+class _ModifyQtyState extends State<ModifyQty> {
   int qty = 1;
+
+  @override
+  void initState() {
+    qty = widget.provider.order.lines[widget.index].qty;
+    super.initState();
+  }
 
   void incrementQty() {
     setState(() {
@@ -37,6 +45,7 @@ class _AddToCartState extends State<AddToCart> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 200,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20), topRight: Radius.circular(20)),
@@ -59,32 +68,13 @@ class _AddToCartState extends State<AddToCart> {
           // Section 1 - increment button
           Column(
             children: <Widget>[
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: FutureBuilder(
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.hasError) {
-                        return const Text('Error loading image');
-                      } else {
-                        return Image.network(
-                          '${Routes.apache}${widget.product.photo}',
-                          height: 140,
-                          width: 250,
-                          fit: BoxFit.cover,
-                        );
-                      }
-                    },
-                  )),
-              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Flexible(
                     child: Text(
-                      widget.product.name,
+                      widget.provider.order.lines[widget.index].product.name,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 15,
@@ -95,23 +85,6 @@ class _AddToCartState extends State<AddToCart> {
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Flexible(
-                    child: Text(
-                      widget.product.description,
-                      textAlign: TextAlign.justify,
-                      style: const TextStyle(fontSize: 14),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 6,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 15),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -163,16 +136,18 @@ class _AddToCartState extends State<AddToCart> {
           const SizedBox(height: 15),
           ElevatedButton(
             onPressed: () {
-              OrderLine line = OrderLine(
-                  price: widget.product.price * qty,
-                  qty: qty,
-                  id: 0,
-                  product: widget.product,
-                  unitPrice: widget.product.price);
-              List<OrderLine> lines = widget.provider.order.lines;
-              lines.add(line);
-              widget.provider.setLines(lines);
+              setState(() {
+                OrderLine newLine = widget.provider.order.lines[widget.index];
+                newLine.qty = qty;
+                widget.provider.updateOrderLine(newLine);
+              });
               Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.pushNamed(
+                  context,
+                  Routes.checkout,
+                  arguments: widget.provider
+              );
             },
             style: ElevatedButton.styleFrom(
               side: const BorderSide(
@@ -191,30 +166,14 @@ class _AddToCartState extends State<AddToCart> {
                 borderRadius: BorderRadius.circular(28),
               ),
             ),
-            child: SizedBox(
-                width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      "Add to cart",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                    Text(
-                      "${widget.product.price * qty} €",
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                )),
+            child: const Text(
+              "Modify",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
           ),
         ],
       ),
