@@ -67,9 +67,14 @@ class ProductsProvider extends ChangeNotifier {
 
   void updateOrderLine(OrderLine updatedLine) {
     int index = order.lines.indexOf(updatedLine);
-    if (index != -1) {
-      order.lines[index] = updatedLine;
-      notifyListeners();
+    if (updatedLine.qty == 0){
+      order.lines.remove(order.lines[index]);
+    }else{
+      if (index != -1) {
+        order.lines[index] = updatedLine;
+      }
     }
+    notifyListeners();
+
   }
 }

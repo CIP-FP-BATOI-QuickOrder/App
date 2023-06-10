@@ -35,7 +35,7 @@ class _ModifyQtyState extends State<ModifyQty> {
   }
 
   void decrementQty() {
-    if (qty > 1) {
+    if (qty > 0) {
       setState(() {
         qty--;
       });
@@ -135,19 +135,26 @@ class _ModifyQtyState extends State<ModifyQty> {
           ),
           const SizedBox(height: 15),
           ElevatedButton(
-            onPressed: () {
-              setState(() {
+            onPressed: () async {
+              bool confirmDelete = true;
+              if (qty == 0) {
+                confirmDelete = await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const DeleteConfirmationDialog();
+                  },
+                );
+              }
+              if (confirmDelete) {
                 OrderLine newLine = widget.provider.order.lines[widget.index];
                 newLine.qty = qty;
                 widget.provider.updateOrderLine(newLine);
-              });
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.pushNamed(
-                  context,
-                  Routes.checkout,
-                  arguments: widget.provider
-              );
+
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pushNamed(context, Routes.checkout,
+                    arguments: widget.provider);
+              }
             },
             style: ElevatedButton.styleFrom(
               side: const BorderSide(
@@ -176,6 +183,78 @@ class _ModifyQtyState extends State<ModifyQty> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class DeleteConfirmationDialog extends StatelessWidget {
+  const DeleteConfirmationDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      elevation: 5.0,
+      backgroundColor: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text(
+                'Are you sure you want to delete?',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                'This action cannot be undone.',
+                style: TextStyle(
+                  fontSize: 16.0,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.grey[300],
+                    onPrimary: Colors.black,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: const Text('Cancel'),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                    onPrimary: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: const Text('Delete'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16.0),
+          ],
+        ),
       ),
     );
   }
