@@ -18,7 +18,7 @@ class AddressCardWidget extends StatefulWidget {
 
   const AddressCardWidget(
       {super.key,
-        required this.userProvider,
+      required this.userProvider,
       required this.id,
       required this.name,
       required this.city,
@@ -121,11 +121,8 @@ class _AddressCardWidgetState extends State<AddressCardWidget> {
                   children: [
                     IconButton(
                         onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            Routes.editAddress,
-                            arguments: widget.id
-                          );
+                          Navigator.pushNamed(context, Routes.editAddress,
+                              arguments: widget.id);
                         },
                         icon: const Icon(
                           Icons.edit_outlined,
@@ -140,10 +137,11 @@ class _AddressCardWidgetState extends State<AddressCardWidget> {
                           },
                         );
                         if (confirmDelete) {
-                         final response = await http.delete(Uri.parse("${Routes.api}address/${widget.id}"));
-                         if (response.statusCode == 200){
-                           widget.userProvider.deleteAddressById(widget.id);
-                         }
+                          final response = await http.delete(
+                              Uri.parse("${Routes.api}address/${widget.id}"));
+                          if (response.statusCode == 200) {
+                            widget.userProvider.deleteAddressById(widget.id);
+                          }
                         }
                       },
                       icon: const Icon(

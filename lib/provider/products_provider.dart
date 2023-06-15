@@ -75,6 +75,21 @@ class ProductsProvider extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  void calcPrice(){
+    for (OrderLine line in order.lines ){
+      order.price += line.price;
+    }
+  }
+
+  double calcFinalPrice(){
+    double price = order.price + (order.price * 0.21) ;
+    price += restaurant.deliveryPrice ;
+    return price;
+  }
+
+  void sendOrder(){
 
   }
 }

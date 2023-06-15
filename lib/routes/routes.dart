@@ -5,6 +5,7 @@ import 'package:quick_order/models/restaurant_detail.dart';
 import 'package:quick_order/models/user.dart';
 import 'package:quick_order/provider/products_provider.dart';
 import 'package:quick_order/screens/checkout/checkout_screen.dart';
+import 'package:quick_order/screens/checkout/shipping_dates/shipping_dates_screen.dart';
 import 'package:quick_order/screens/home/home_screen.dart';
 import 'package:quick_order/screens/home/search_screen.dart';
 import 'package:quick_order/screens/home/widgets/restaurant_search_card_widget.dart';
@@ -54,11 +55,13 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.history: (_) => HistoryScreen(),
   Routes.reviews: (_) => ReviewsScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant, user: Provider.of<UserProvider>(_).user!),
   Routes.checkout: (_) => CheckoutScreen(provider: ModalRoute.of(_)!.settings.arguments as ProductsProvider),
+  Routes.shippindDates: (_) => ShippingDatesScreen(provider: ModalRoute.of(_)!.settings.arguments as ProductsProvider),
+
 };
 
 class Routes {
-  static const api = "http://192.168.1.140:8086/";
-  static const apache = "http://192.168.1.140/";
+  static const api = "http://192.168.1.24:8086/";
+  static const apache = "http://192.168.1.24/";
   static const splashScreen = "splash_screen";
   static const loginScreen = "login_screen";
   static const welcomeScreen = "welcome_screen";
@@ -80,4 +83,5 @@ class Routes {
   static const history = "history";
   static const reviews = "reviews";
   static const checkout = "checkout";
+  static const shippindDates = "shipping_dates";
 }

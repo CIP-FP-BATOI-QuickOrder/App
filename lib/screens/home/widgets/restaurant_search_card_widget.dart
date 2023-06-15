@@ -31,6 +31,8 @@ class _RestaurantSearchCardWidgetState
     extends State<RestaurantSearchCardWidget> {
   @override
   Widget build(BuildContext context) {
+    final deliveryPrice = widget.deliveryPrice == 0 ? "Free" : "${widget.deliveryPrice} €";
+
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -156,7 +158,7 @@ class _RestaurantSearchCardWidgetState
                           const SizedBox(width: 4.0),
                           Flexible(
                             child: Text(
-                              "${widget.deliveryPrice} €",
+                             deliveryPrice,
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 12,

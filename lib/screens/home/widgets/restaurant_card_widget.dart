@@ -88,6 +88,7 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
     final cardWidth = isPortrait
         ? 280.0
         : 320.0;
+    final deliveryPrice = widget.deliveryPrice == 0 ? "Free" : "${widget.deliveryPrice} €";
 
     return Container(
       constraints: BoxConstraints(
@@ -233,7 +234,7 @@ class _RestaurantCardWidgetState extends State<RestaurantCardWidget> {
                         const SizedBox(width: 4.0),
                         Flexible(
                           child: Text(
-                            "${widget.deliveryPrice} €",
+                            deliveryPrice,
                             style: const TextStyle(
                               color: Colors.black26,
                               fontSize: 12,
