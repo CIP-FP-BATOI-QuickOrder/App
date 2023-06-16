@@ -7,10 +7,12 @@ class ListPaymentCheckoutWidget extends StatefulWidget {
     Key? key,
     required this.userProvider,
     required this.selectedPaymentIndex,
+    required this.onPaymentSelected, // Agrega esta línea
   }) : super(key: key);
 
   final UserProvider userProvider;
   int selectedPaymentIndex;
+  final Function(int) onPaymentSelected; // Agrega esta línea
 
   @override
   _ListPaymentCheckoutWidgetState createState() =>
@@ -32,6 +34,7 @@ class _ListPaymentCheckoutWidgetState extends State<ListPaymentCheckoutWidget> {
               setState(() {
                 widget.selectedPaymentIndex = index;
               });
+              widget.onPaymentSelected(index); // Agrega esta línea
             },
             child: PaymentCheckoutCardWidget(
               expirationDate: widget.userProvider.user!.paymentMethods[index].expirationDate,
@@ -47,3 +50,4 @@ class _ListPaymentCheckoutWidgetState extends State<ListPaymentCheckoutWidget> {
     );
   }
 }
+

@@ -13,4 +13,16 @@ class OrderLine {
       required this.id,
       required this.product,
       required this.unitPrice});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'orderLineId': {
+        'id': 1,
+        'orderId': 1,
+      },
+      'qty': qty,
+      'price': price,
+      'unitPrice': unitPrice,
+    };
+  }
 }

@@ -10,10 +10,12 @@ class ListAddressCheckoutWidget extends StatefulWidget {
     Key? key,
     required this.userProvider,
     required this.selectedAddressIndex,
+    required this.onAddressSelected, // Agrega esta línea
   }) : super(key: key);
 
   final UserProvider userProvider;
   int selectedAddressIndex;
+  final Function(int) onAddressSelected; // Agrega esta línea
 
   @override
   _ListAddressCheckoutWidgetState createState() =>
@@ -35,6 +37,7 @@ class _ListAddressCheckoutWidgetState extends State<ListAddressCheckoutWidget> {
               setState(() {
                 widget.selectedAddressIndex = index;
               });
+              widget.onAddressSelected(index);
             },
             child: AddressCheckoutCardWidget(
               id: widget.userProvider.user!.addresses[index].id,
@@ -44,9 +47,8 @@ class _ListAddressCheckoutWidgetState extends State<ListAddressCheckoutWidget> {
               cp: widget.userProvider.user!.addresses[index].cp,
               address: widget.userProvider.user!.addresses[index].address,
               addressName:
-                  widget.userProvider.user!.addresses[index].addressName,
-              isSelected:
-                  index == widget.selectedAddressIndex,
+              widget.userProvider.user!.addresses[index].addressName,
+              isSelected: index == widget.selectedAddressIndex,
             ),
           );
         },

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:quick_order/extensions/in_progress.dart';
 import 'package:quick_order/provider/products_provider.dart';
 import 'package:quick_order/routes/routes.dart';
 import 'package:quick_order/screens/checkout/shipping_dates/widgets/address/list_address_checkout_widget.dart';
@@ -26,6 +27,7 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
   int selectedAddressIndex = -1;
   int selectedPaymentIndex = -1;
   TextEditingController discountController = TextEditingController();
+
   @override
   void initState() {
     widget.provider.calcPrice();
@@ -38,6 +40,7 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
     final deliveryPrice = widget.provider.restaurant.deliveryPrice == 0
         ? "Free"
         : "${widget.provider.restaurant.deliveryPrice} €";
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Checkout"),
@@ -71,18 +74,21 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                              padding: const EdgeInsets.only(top: 2.0),
-                              child: InkWell(
-                                onTap: () => Navigator.pushNamed(
-                                    context, Routes.newAddress),
-                                child: const Text(
-                                  'New address',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.orange,
-                                  ),
+                            padding: const EdgeInsets.only(top: 2.0),
+                            child: InkWell(
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                Routes.newAddress,
+                              ),
+                              child: const Text(
+                                'New address',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.orange,
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                           const Icon(
                             Icons.keyboard_arrow_right,
                             color: Colors.orange,
@@ -96,6 +102,11 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
                   ListAddressCheckoutWidget(
                     userProvider: Provider.of<UserProvider>(context),
                     selectedAddressIndex: selectedAddressIndex,
+                    onAddressSelected: (index) {
+                      setState(() {
+                        selectedAddressIndex = index;
+                      });
+                    },
                   ),
                   const SizedBox(height: 20.0),
                   Row(
@@ -115,18 +126,21 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                              padding: const EdgeInsets.only(top: 2.0),
-                              child: InkWell(
-                                onTap: () => Navigator.pushNamed(
-                                    context, Routes.newPayment),
-                                child: const Text(
-                                  'New payment method',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.orange,
-                                  ),
+                            padding: const EdgeInsets.only(top: 2.0),
+                            child: InkWell(
+                              onTap: () => Navigator.pushNamed(
+                                context,
+                                Routes.newPayment,
+                              ),
+                              child: const Text(
+                                'New payment method',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.orange,
                                 ),
-                              )),
+                              ),
+                            ),
+                          ),
                           const Icon(
                             Icons.keyboard_arrow_right,
                             color: Colors.orange,
@@ -140,6 +154,11 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
                   ListPaymentCheckoutWidget(
                     userProvider: Provider.of<UserProvider>(context),
                     selectedPaymentIndex: selectedPaymentIndex,
+                    onPaymentSelected: (index) {
+                      setState(() {
+                        selectedPaymentIndex = index;
+                      });
+                    },
                   ),
                   const SizedBox(height: 35.0),
                   Row(
@@ -154,33 +173,31 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
                               context,
                               Routes.restaurantSearchScreen,
                               arguments: p0,
-                            ).then(
-                                (value) => widget.provider.refreshData);
+                            ).then((value) => widget.provider.refreshData);
                             return null;
                           },
                         ),
                       ),
                       const SizedBox(width: 14.0),
                       InkWell(
-                        onTap: () {
-
-                        },
+                        onTap: () {},
                         splashColor: Colors.orange,
                         borderRadius: BorderRadius.circular(12),
                         enableFeedback: false,
                         child: Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.3),
-                                  spreadRadius: 0,
-                                  blurRadius: 5,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ]),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.3),
+                                spreadRadius: 0,
+                                blurRadius: 5,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
                           child: const Padding(
                             padding: EdgeInsets.symmetric(
                               horizontal: 2,
@@ -203,7 +220,8 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
                     children: [
                       const Text('Subtotal'),
                       Text(
-                          "${widget.provider.order.price.toStringAsFixed(2)} €")
+                        "${widget.provider.order.price.toStringAsFixed(2)} €",
+                      ),
                     ],
                   ),
                   const SizedBox(height: 15.0),
@@ -213,7 +231,8 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
                     children: [
                       const Text('Tax 21%'),
                       Text(
-                          "${(widget.provider.order.price * 0.21).toStringAsFixed(2)} €")
+                        "${(widget.provider.order.price * 0.21).toStringAsFixed(2)} €",
+                      ),
                     ],
                   ),
                   const SizedBox(height: 15.0),
@@ -222,7 +241,7 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Delivery price'),
-                      Text(deliveryPrice)
+                      Text(deliveryPrice),
                     ],
                   ),
                   const SizedBox(height: 15.0),
@@ -235,15 +254,42 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
                     children: [
                       const Text('Total'),
                       Text(
-                          "${widget.provider.calcFinalPrice().toStringAsFixed(2)} €")
+                        "${widget.provider.calcFinalPrice().toStringAsFixed(2)} €",
+                      ),
                     ],
                   ),
                   const SizedBox(height: 30.0),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: ElevatedButton(
-                      onPressed: () {
-
+                      onPressed: () async {
+                       if (selectedAddressIndex == -1 || selectedPaymentIndex == -1){
+                         context.showCustomFlashMessage(
+                           title: "Error",
+                           status: 'failed',
+                           positionBottom: false,
+                           message: "Select shipping address and payment method",
+                         );
+                       }else{
+                         widget.provider.order.deliveryAddress =
+                             widget.provider.order.user.addresses[selectedAddressIndex].id;
+                         if (await widget.provider.save()){
+                           context.showCustomFlashMessage(
+                             title: "Accepted",
+                             status: 'success',
+                             positionBottom: false,
+                             message: "your order has been accepted",
+                           );
+                           Navigator.pushNamed(context, Routes.home);
+                         }else{
+                           context.showCustomFlashMessage(
+                             title: "Error",
+                             status: 'failed',
+                             positionBottom: false,
+                             message: "Something went wrong",
+                           );
+                         }
+                       }
                       },
                       style: ElevatedButton.styleFrom(
                         side: const BorderSide(
@@ -274,7 +320,7 @@ class _ShippingDatesScreenState extends State<ShippingDatesScreen> {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

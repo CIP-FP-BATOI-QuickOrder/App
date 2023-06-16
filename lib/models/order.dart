@@ -22,4 +22,17 @@ class Order {
       required this.deliveryAddress,
       required this.discount,
       required this.lines});
+
+  Map<String, dynamic> toJson() {
+    List lineItems = lines.map((line) => line.toJson()).toList();
+
+    return {
+      'id': id,
+      'price': price,
+      'deliveryAddress': deliveryAddress,
+      'deliveryTime': deliveryTime,
+      'discount': discount,
+      'lines': lineItems,
+    };
+  }
 }
