@@ -34,7 +34,7 @@ class ProfileScreen extends StatelessWidget {
     final ImagePicker picker = ImagePicker();
     User? user = getUserProvaider().user;
 
-    Future<void> enviarFoto(String url, File file) async {
+    Future<void> sendPhoto(String url, File file) async {
       final request = http.MultipartRequest('POST', Uri.parse(url));
       final fileMultipart = await http.MultipartFile.fromPath(
           'photo', file.path,
@@ -49,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
       final XFile? photo = await picker.pickImage(source: ImageSource.camera);
       if (photo != null) {
         File photofile = File(photo.path);
-        enviarFoto("${Routes.api}user/upload=${user?.id}", photofile);
+        sendPhoto("${Routes.api}user/upload=${user?.id}", photofile);
       }
     }
 

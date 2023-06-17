@@ -1,18 +1,19 @@
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:quick_order/models/product.dart';
-import 'package:quick_order/models/restaurant_detail.dart';
-import 'package:quick_order/models/user.dart';
 import 'package:quick_order/provider/products_provider.dart';
+import 'package:quick_order/provider/worker_restaurant_provider.dart';
+import 'package:quick_order/screens/Workers/login/forgotPassword/forgot_password.dart';
+import 'package:quick_order/screens/Workers/login/forgotPassword/forgot_password_content.dart';
+import 'package:quick_order/screens/Workers/login/login.dart';
+import 'package:quick_order/screens/Workers/register/workers_register.dart';
+import 'package:quick_order/screens/Workers/welcome_screen/workers_welcome_screen.dart';
 import 'package:quick_order/screens/checkout/checkout_screen.dart';
 import 'package:quick_order/screens/checkout/shipping_dates/shipping_dates_screen.dart';
 import 'package:quick_order/screens/home/home_screen.dart';
 import 'package:quick_order/screens/home/search_screen.dart';
-import 'package:quick_order/screens/home/widgets/restaurant_search_card_widget.dart';
 import 'package:quick_order/screens/profile/addresses/address_screen.dart';
 import 'package:quick_order/screens/profile/addresses/edit_address/edit_address.dart';
 import 'package:quick_order/screens/profile/addresses/widget/new_address.dart';
-import 'package:quick_order/screens/profile/addresses/widget/new_address_content.dart';
 import 'package:quick_order/screens/profile/edit_profile/edit_profile.dart';
 import 'package:quick_order/screens/profile/history/search_screen.dart';
 import 'package:quick_order/screens/profile/payment/edit_payment/edit_payment.dart';
@@ -21,8 +22,6 @@ import 'package:quick_order/screens/profile/payment/widget/new_payment.dart';
 import 'package:quick_order/screens/profile/profile_screen.dart';
 import 'package:quick_order/screens/restaurant_detail/restaurant_detail_screen.dart';
 import 'package:quick_order/screens/restaurant_detail/reviews/restaurant_reviews_screen.dart';
-import 'package:quick_order/screens/restaurant_detail/reviews/widgets/new_review_widget.dart';
-import 'package:quick_order/screens/restaurant_detail/widget/add_to_cart_widget.dart';
 
 import 'package:quick_order/screens/splashscreen/splash_screen.dart';
 
@@ -56,6 +55,10 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.reviews: (_) => ReviewsScreen(restaurant: ModalRoute.of(_)!.settings.arguments as Restaurant, user: Provider.of<UserProvider>(_).user!),
   Routes.checkout: (_) => CheckoutScreen(provider: ModalRoute.of(_)!.settings.arguments as ProductsProvider),
   Routes.shippindDates: (_) => ShippingDatesScreen(provider: ModalRoute.of(_)!.settings.arguments as ProductsProvider),
+  Routes.workersWelcome: (_) => WorkersWelcomeScreen(),
+  Routes.workersRegister: (_) => WorkersRegisterScreen(provider: ModalRoute.of(_)!.settings.arguments as WorkerRestaurantProvider),
+  Routes.workersLogin: (_) => WorkersLoginScreen(provider: ModalRoute.of(_)!.settings.arguments as WorkerRestaurantProvider),
+  Routes.workersForgotPasswordScreen: (_) => WorkersForgotPasswordScreen(provider: ModalRoute.of(_)!.settings.arguments as WorkerRestaurantProvider),
 
 };
 
@@ -84,4 +87,8 @@ class Routes {
   static const reviews = "reviews";
   static const checkout = "checkout";
   static const shippindDates = "shipping_dates";
+  static const workersWelcome = "workers_welcome";
+  static const workersRegister = "workers_register";
+  static const workersLogin = "workers_login";
+  static const workersForgotPasswordScreen = "workersForgotPasswordScreen";
 }

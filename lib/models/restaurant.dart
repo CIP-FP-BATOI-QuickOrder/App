@@ -49,4 +49,19 @@ class Restaurant {
       tags: tagsList,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'nif': nif,
+      'password': password,
+      'photo': photo,
+      'city': city,
+      'direction': direction,
+      'deliveryTime': deliveryTime,
+      'deliveryPrice': deliveryPrice,
+      'rating': rating,
+    };
+  }
 }

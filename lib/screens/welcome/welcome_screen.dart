@@ -57,7 +57,7 @@ class WelcomeScreen extends StatelessWidget {
                         children: const [
                           Expanded(
                             child: Divider(
-                              thickness: 0.5,
+                              thickness: 1,
                               color: Colors.white,
                             ),
                           ),
@@ -76,7 +76,7 @@ class WelcomeScreen extends StatelessWidget {
                           ),
                           Expanded(
                             child: Divider(
-                              thickness: 0.5,
+                              thickness: 1,
                               color: Colors.white,
                             ),
                           ),
@@ -129,6 +129,26 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        InkWell(
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            Routes.workersWelcome,
+                          ),
+                          child: const Text(
+                            'work with us',
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
