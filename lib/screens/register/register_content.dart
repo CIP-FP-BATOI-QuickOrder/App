@@ -12,7 +12,7 @@ import '../welcome/widgets/signing_button.dart';
 import '../welcome/widgets/social_media_buttons.dart';
 
 class RegisterContent extends StatefulWidget {
-  const RegisterContent({super.key});
+  const RegisterContent({Key? key}) : super(key: key);
 
   @override
   State<RegisterContent> createState() => _RegisterContentState();
@@ -60,11 +60,12 @@ class _RegisterContentState extends State<RegisterContent> {
           'password': _password.text,
           'phone': _phone.text,
           'credit': '0',
+          'photo': "profile.png"
         }),
       );
       if (response.statusCode == 201) {
         Future.delayed(const Duration(seconds: 2)).then(
-          (_) => Navigator.pushNamed(
+              (_) => Navigator.pushNamed(
             context,
             Routes.loginScreen,
           ),
@@ -82,8 +83,8 @@ class _RegisterContentState extends State<RegisterContent> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [Column(
+    return SingleChildScrollView(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -103,16 +104,17 @@ class _RegisterContentState extends State<RegisterContent> {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 8,
-                            offset: const Offset(0, 3),
-                          ),
-                        ]),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 8,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
                     child: const Padding(
                       padding: EdgeInsets.all(1.0),
                       child: Icon(
@@ -233,8 +235,7 @@ class _RegisterContentState extends State<RegisterContent> {
             ),
           ),
         ],
-      )
-      ],
+      ),
     );
   }
 }

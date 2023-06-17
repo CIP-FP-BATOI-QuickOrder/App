@@ -10,6 +10,7 @@ import 'package:quick_order/extensions/in_progress.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart' as path;
 
 import '../../models/user.dart';
 import '../../provider/user_provider.dart';
@@ -23,15 +24,15 @@ class ProfileScreen extends StatelessWidget {
 
   final BuildContext? context;
 
-  User? getUser() {
+  UserProvider getUserProvaider() {
     final userProvider = Provider.of<UserProvider>(context!);
-    return userProvider.user;
+    return userProvider;
   }
 
   @override
   Widget build(BuildContext context) {
     final ImagePicker picker = ImagePicker();
-    User? user = getUser();
+    User? user = getUserProvaider().user;
 
     Future<void> enviarFoto(String url, File file) async {
       final request = http.MultipartRequest('POST', Uri.parse(url));
@@ -182,7 +183,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   Center(
                     child: Text(
-                      getUser()!.name,
+                      getUserProvaider().user!.name,
                       style: const TextStyle(fontSize: 18),
                     ),
                   ),
