@@ -23,4 +23,14 @@ class Product {
       price: map['price']
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'photo': photo,
+      'description': description,
+      'price': price,
+    };
+  }
 }

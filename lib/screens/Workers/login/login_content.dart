@@ -9,7 +9,9 @@ import '../../welcome/widgets/social_media_buttons.dart';
 
 class WorkersLoginContent extends StatefulWidget {
   WorkersLoginContent({super.key, required this.provider});
+
   WorkerRestaurantProvider provider;
+
   @override
   State<WorkersLoginContent> createState() => _WorkersLoginContentState();
 }
@@ -105,10 +107,8 @@ class _WorkersLoginContentState extends State<WorkersLoginContent> {
               Center(
                 child: InkWell(
                   onTap: () => Navigator.pushNamed(
-                    context,
-                    Routes.workersForgotPasswordScreen,
-                    arguments: widget.provider
-                  ),
+                      context, Routes.workersForgotPasswordScreen,
+                      arguments: widget.provider),
                   child: const Text(
                     'Forgot password?',
                     style: TextStyle(
@@ -123,15 +123,16 @@ class _WorkersLoginContentState extends State<WorkersLoginContent> {
                 padding: const EdgeInsets.symmetric(horizontal: 42.0),
                 child: ButtonWidget(
                   onPress: () async {
-                    if (await widget.provider.login(_nif.text, _password.text)){
-                      Navigator.pushNamed(context, Routes.home);
-                    }else{
+                    if (await widget.provider
+                        .login(_nif.text, _password.text)) {
+                      Navigator.pushNamed(context, Routes.workersHome,
+                          arguments: widget.provider);
+                    } else {
                       context.showCustomFlashMessage(
-                        status: "failed",
-                        title: "Error",
-                        message: "Nif or password are not correct",
-                        positionBottom: false
-                      );
+                          status: "failed",
+                          title: "Error",
+                          message: "Nif or password are not correct",
+                          positionBottom: false);
                     }
                   },
                   title: 'LOGIN',
@@ -156,10 +157,8 @@ class _WorkersLoginContentState extends State<WorkersLoginContent> {
                   const SizedBox(width: 8.0),
                   InkWell(
                     onTap: () => Navigator.pushNamed(
-                      context,
-                      Routes.workersRegister,
-                      arguments: widget.provider
-                    ),
+                        context, Routes.workersRegister,
+                        arguments: widget.provider),
                     child: const Text(
                       'Sign Up',
                       style: TextStyle(

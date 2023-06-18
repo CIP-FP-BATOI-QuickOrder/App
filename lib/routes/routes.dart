@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_order/provider/products_provider.dart';
 import 'package:quick_order/provider/worker_restaurant_provider.dart';
+import 'package:quick_order/screens/Workers/edit_product/edit_product.dart';
+import 'package:quick_order/screens/Workers/home/home_screen.dart';
 import 'package:quick_order/screens/Workers/login/forgotPassword/forgot_password.dart';
 import 'package:quick_order/screens/Workers/login/forgotPassword/forgot_password_content.dart';
 import 'package:quick_order/screens/Workers/login/login.dart';
@@ -59,7 +61,13 @@ Map<String, WidgetBuilder> routesApp = {
   Routes.workersRegister: (_) => WorkersRegisterScreen(provider: ModalRoute.of(_)!.settings.arguments as WorkerRestaurantProvider),
   Routes.workersLogin: (_) => WorkersLoginScreen(provider: ModalRoute.of(_)!.settings.arguments as WorkerRestaurantProvider),
   Routes.workersForgotPasswordScreen: (_) => WorkersForgotPasswordScreen(provider: ModalRoute.of(_)!.settings.arguments as WorkerRestaurantProvider),
-
+  Routes.workersHome: (_) => WorkersHomeScreen(provider:  ModalRoute.of(_)!.settings.arguments as WorkerRestaurantProvider),
+  Routes.editProduct: (_) {
+    final arguments = ModalRoute.of(_)!.settings.arguments as Map<String, dynamic>;
+    final provider = arguments['provider'] as WorkerRestaurantProvider;
+    final id = arguments['id'] as int;
+    return EditProductScreen(provider: provider, id: id);
+  },
 };
 
 class Routes {
@@ -91,4 +99,6 @@ class Routes {
   static const workersRegister = "workers_register";
   static const workersLogin = "workers_login";
   static const workersForgotPasswordScreen = "workersForgotPasswordScreen";
+  static const workersHome = "workers_home";
+  static const editProduct = "edit_product";
 }

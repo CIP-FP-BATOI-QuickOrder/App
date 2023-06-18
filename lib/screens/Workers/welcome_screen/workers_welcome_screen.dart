@@ -105,7 +105,7 @@ class WorkersWelcomeScreen extends StatelessWidget {
                                   Routes.workersLogin,
                                   arguments: workerRestaurantProvider
                               ),
-                              title: 'Start with email',
+                              title: 'Start with nif',
                               buttonColor: Colors.white.withOpacity(0.3),
                               titleColor: Colors.white,
                               borderColor: Colors.white,
