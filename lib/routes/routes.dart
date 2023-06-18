@@ -7,6 +7,7 @@ import 'package:quick_order/screens/Workers/home/home_screen.dart';
 import 'package:quick_order/screens/Workers/login/forgotPassword/forgot_password.dart';
 import 'package:quick_order/screens/Workers/login/forgotPassword/forgot_password_content.dart';
 import 'package:quick_order/screens/Workers/login/login.dart';
+import 'package:quick_order/screens/Workers/new_product/new_product.dart';
 import 'package:quick_order/screens/Workers/register/workers_register.dart';
 import 'package:quick_order/screens/Workers/welcome_screen/workers_welcome_screen.dart';
 import 'package:quick_order/screens/checkout/checkout_screen.dart';
@@ -68,6 +69,7 @@ Map<String, WidgetBuilder> routesApp = {
     final id = arguments['id'] as int;
     return EditProductScreen(provider: provider, id: id);
   },
+  Routes.newProduct: (_) => NewProductScreen(provider: ModalRoute.of(_)!.settings.arguments as WorkerRestaurantProvider),
 };
 
 class Routes {
@@ -101,4 +103,5 @@ class Routes {
   static const workersForgotPasswordScreen = "workersForgotPasswordScreen";
   static const workersHome = "workers_home";
   static const editProduct = "edit_product";
+  static const newProduct = "new_product";
 }

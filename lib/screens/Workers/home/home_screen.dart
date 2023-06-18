@@ -24,6 +24,14 @@ class _WorkersHomeScreenState extends State<WorkersHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.newProduct, arguments: widget.provider);
+        },
+        backgroundColor: Colors.orange,
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       appBar: AppBar(title: Text(widget.provider.restaurant.name)),
       body: SingleChildScrollView(
         child: Padding(

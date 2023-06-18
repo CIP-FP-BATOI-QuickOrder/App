@@ -154,4 +154,18 @@ class WorkerRestaurantProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> saveProduct(Product product, PickedFile file) async {
+    Map<String, dynamic> productJson = product.toJson();
+   final response = await http.post(
+      Uri.parse("${Routes.api}product/restaurant=${restaurant.id}"),
+      body: jsonEncode(productJson),
+      headers: {'Content-Type': 'application/json'},
+    );
+    if (response.statusCode == 201){
+      product.id = int.parse(response.body);
+      upgradeProductPhoto(file, product.id);
+      products.add(product);
+      notifyListeners();
+    }
+  }
 }
