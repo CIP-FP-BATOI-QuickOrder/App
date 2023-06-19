@@ -154,9 +154,9 @@ class _NewProductFormWidgetState extends State<NewProductFormWidget> {
         ),
         const SizedBox(height: 10.0),
         TextFormField(
-          keyboardType: TextInputType.number,
+          keyboardType: TextInputType.numberWithOptions(decimal: true),
           inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+            FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
           ],
           validator: (value) {
             if (value == null || value.isEmpty) {

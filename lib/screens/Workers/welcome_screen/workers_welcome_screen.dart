@@ -47,6 +47,36 @@ class WorkersWelcomeScreen extends StatelessWidget {
                   ),
                   child: null,
                 ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  enableFeedback: false,
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 100, left: 10),
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 8,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(1.0),
+                      child: Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 18,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ),
+                ),
                 Container(
                   padding: const EdgeInsets.all(28.0),
                   height: size.height,
